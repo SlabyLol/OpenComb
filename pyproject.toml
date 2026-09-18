@@ -4,29 +4,18 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.7.0"
-description = "OpenComb – Developer Swiss Army Knife: combine, pak, drill, search, watch & more"
+version = "0.8.0"
+description = "OpenComb – Developer Swiss Army Knife with animated interactive build"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-authors = [
-    { name = "DarkFox Co.", email = "darkfox-to@proton.me" }
-]
-keywords = [
-    "combiner", "cli", "devtools", "search", "todos", "watch",
-    "pypi", "scaffold", "drill", "opencomb"
-]
+authors = [{ name = "DarkFox Co.", email = "darkfox-to@proton.me" }]
+keywords = ["cli", "devtools", "build", "opencomb"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Utilities",
     "Environment :: Console",
 ]
 dependencies = [
@@ -38,27 +27,12 @@ dependencies = [
     "click>=8.0.0",
     "jinja2>=3.1.0",
 ]
-
 [project.optional-dependencies]
-dev = ["pytest>=8.0.0", "pytest-cov>=5.0.0", "ruff>=0.5.0", "mypy>=1.10.0"]
+dev = ["pytest>=8.0.0", "ruff>=0.5.0"]
 format = ["ruff>=0.5.0", "black>=24.0.0"]
-watch = ["watchdog>=4.0.0"]
-
 [project.scripts]
 opencomb = "opencomb.cli:app"
-
 [project.urls]
 Homepage = "https://github.com/SlabyLol/OpenComb"
-Repository = "https://github.com/SlabyLol/OpenComb"
-Issues = "https://github.com/SlabyLol/OpenComb/issues"
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/opencomb"]
-
-[tool.ruff]
-line-length = 100
-target-version = "py310"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
