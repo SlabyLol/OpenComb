@@ -8,7 +8,7 @@
 [![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
 
 <p align="center">
-  <img src="[docs/logo.svg](https://github.com/SlabyLol/OpenComb/blob/main/docs/logo.svg)" alt="OpenComb Logo" width="160"/>
+  <img src="[https://github.com/SlabyLol/OpenComb/blob/main/docs/logo.svg](https://github.com/SlabyLol/OpenComb/blob/main/docs/logo.svg)" alt="OpenComb Logo" width="160"/>
 </p>
 
 **OpenComb** is a powerful, practical toolkit for developers that helps you:
