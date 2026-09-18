@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.2.0"
-description = "OpenComb – Smart Combiner for Code, Configs, Prompts, Templates, Recipes & Combinatorial Generation"
+version = "0.3.0"
+description = "OpenComb – Smart Combiner for Code, Configs, Prompts, Templates, Recipes, Env & Combinatorial Generation"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -13,20 +13,12 @@ authors = [
     { name = "DarkFox Co.", email = "darkfox-to@proton.me" }
 ]
 keywords = [
-    "combiner",
-    "code-generation",
-    "config-merge",
-    "combinatorial",
-    "testing",
-    "cli",
-    "prompts",
-    "templates",
-    "recipes",
-    "jinja2",
-    "opencomb"
+    "combiner", "code-generation", "config-merge", "combinatorial",
+    "testing", "cli", "prompts", "templates", "recipes", "jinja2",
+    "dotenv", "opencomb"
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -50,12 +42,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=5.0.0",
-    "ruff>=0.5.0",
-    "mypy>=1.10.0",
-]
+dev = ["pytest>=8.0.0", "pytest-cov>=5.0.0", "ruff>=0.5.0", "mypy>=1.10.0"]
+format = ["ruff>=0.5.0", "black>=24.0.0"]
+watch = ["watchdog>=4.0.0"]
 
 [project.scripts]
 opencomb = "opencomb.cli:app"
@@ -70,13 +59,7 @@ Documentation = "https://github.com/SlabyLol/OpenComb#readme"
 packages = ["src/opencomb"]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/tests",
-    "/examples",
-    "/README.md",
-    "/LICENSE",
-]
+include = ["/src", "/tests", "/examples", "/README.md", "/LICENSE"]
 
 [tool.ruff]
 line-length = 100
@@ -84,12 +67,6 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
-
-[tool.mypy]
-python_version = "3.10"
-strict = true
-warn_return_any = true
-warn_unused_configs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
