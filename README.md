@@ -1,6 +1,6 @@
 # OpenComb
 
-**Smart Combiner for Code, Configs, Prompts & Combinatorial Generation**
+**Smart Combiner for Code, Configs, Prompts, Templates, Recipes & Combinatorial Generation**
 
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
@@ -10,13 +10,16 @@
   <img src="docs/logo.svg" alt="OpenComb Logo" width="160"/>
 </p>
 
-OpenComb is a practical developer toolkit that helps you:
+**OpenComb** is a powerful, practical toolkit for developers that helps you:
 
-- **Combine** multiple Python source files / snippets into one clean module (with import deduplication)
-- **Merge** YAML, JSON and TOML configuration files intelligently (deep or shallow)
-- **Generate** combinatorial parameter sets (full cartesian product, pairwise testing, or random sampling)
+- **Combine** multiple Python source files into one clean module (with smart import deduplication)
+- **Merge** YAML, JSON and TOML configs intelligently (deep or shallow)
+- **Generate** combinatorial parameter sets (cartesian, pairwise testing, sampling)
+- **Build** structured LLM prompts from system / instruction / context / few-shot / user parts
+- **Render** Jinja2 templates (single or multi-file)
+- **Run declarative recipes** that orchestrate all of the above in one YAML file
 
-Perfect for rapid prototyping, test matrix generation, config management and AI/prompt workflows.
+Perfect for rapid prototyping, test matrix generation, config management, AI/prompt engineering and automation pipelines.
 
 ## Installation
 
@@ -30,77 +33,130 @@ Or with uv:
 uv add opencomb
 ```
 
-## Quick Start
+## Features at a Glance
 
-### CLI
+| Feature              | CLI Command     | Library Class            | Description                                      |
+|----------------------|-----------------|--------------------------|--------------------------------------------------|
+| Code Combining       | `combine`       | `CodeCombiner`           | Merge Python files + import dedupe               |
+| Config Merging       | `merge`         | `ConfigMerger`           | Deep / shallow YAML·JSON·TOML                    |
+| Combinatorial Gen    | `generate`      | `CombinatorialGenerator` | Cartesian · Pairwise · Sample                    |
+| Prompt Building      | `prompt`        | `PromptCombiner`         | Structured LLM prompts                           |
+| Template Rendering   | `template`      | `TemplateRenderer`       | Jinja2 power                                     |
+| Recipe Runner        | `recipe`        | `RecipeRunner`           | Full pipelines in one YAML                       |
+
+## Quick Start – CLI
 
 ```bash
 # Combine Python files
 opencomb combine module_a.py module_b.py utils.py -o combined.py
 
-# Merge config files (later files override earlier ones)
+# Merge configs (later files win)
 opencomb merge base.yaml local.yaml secrets.toml -o final.yaml
 
-# Generate all parameter combinations
-opencomb generate -p params.yaml --method cartesian -o combos.jsonl
+# Generate combinations
+opencomb generate -p params.yaml --method pairwise --report
 
-# Efficient pairwise combinations (great for testing)
-opencomb generate -p params.yaml --method pairwise
+# Build an LLM prompt
+opencomb prompt \
+  --system system.txt \
+  --instruction task.txt \
+  --examples fewshot.yaml \
+  --user query.txt \
+  -o final_prompt.txt
 
-# Show info
-opencomb info
+# Render Jinja2 templates
+opencomb template template.j2 --data data.yaml -o output.md
+
+# Run a full recipe
+opencomb recipe examples/sample_recipe.yaml
+opencomb recipe examples/sample_recipe.yaml --dry-run --verbose
 ```
 
-### Library
+## Quick Start – Library
 
 ```python
-from opencomb import CodeCombiner, ConfigMerger, CombinatorialGenerator
+from opencomb import (
+    CodeCombiner,
+    ConfigMerger,
+    CombinatorialGenerator,
+    PromptCombiner,
+    TemplateRenderer,
+    RecipeRunner,
+)
 
-# Combine code
+# Code
 combiner = CodeCombiner()
-combined = combiner.combine_files(["a.py", "b.py", "c.py"])
+code = combiner.combine_files(["a.py", "b.py"])
 
-# Merge configs
+# Config
 merger = ConfigMerger()
 config = merger.merge_files(["base.yaml", "override.yaml"])
 merger.save(config, "result.yaml")
 
-# Generate combinations
+# Combinations
 gen = CombinatorialGenerator(seed=42)
-params = {
-    "lr": [0.001, 0.01, 0.1],
-    "batch_size": [16, 32, 64],
-    "optimizer": ["adam", "sgd"],
-}
+params = {"lr": [0.001, 0.01], "batch": [16, 32], "opt": ["adam", "sgd"]}
 all_combos = gen.cartesian(params)
-pairwise = gen.pairwise(params)          # much smaller set
-sample = gen.sample(params, n=10)
+pairwise   = gen.pairwise(params)   # much smaller & efficient
+
+# Prompts
+pc = PromptCombiner()
+prompt = pc.combine(
+    system="You are a senior Python engineer.",
+    instruction="Review the following code.",
+    examples=[{"input": "x=1", "output": "Looks fine."}],
+    user="def foo(): pass",
+)
+
+# Templates
+renderer = TemplateRenderer()
+html = renderer.render_string("<h1>{{ title }}</h1>", title="OpenComb")
+
+# Recipes
+runner = RecipeRunner()
+results = runner.run("my_recipe.yaml")
 ```
 
-## Features
-
-| Feature              | Description                                      |
-|----------------------|--------------------------------------------------|
-| Code Combining       | Merge Python files, optional import deduplication |
-| Config Merging       | Deep / shallow merge of YAML, JSON, TOML         |
-| Cartesian Product    | Full combinatorial explosion                     |
-| Pairwise Testing     | Efficient covering of all pairs                  |
-| Random Sampling      | Quick exploration of the space                   |
-| Beautiful CLI        | Powered by Typer + Rich                          |
-| Pure Python          | Minimal dependencies                             |
-
-## Example Parameter File
+## Recipe Example
 
 ```yaml
-# params.yaml
-learning_rate: [0.001, 0.01, 0.1]
-batch_size: [16, 32, 64]
-optimizer: [adam, sgd, rmsprop]
-dropout: [0.1, 0.3, 0.5]
+# my_pipeline.yaml
+name: full-pipeline
+
+combine:
+  files: [src/a.py, src/b.py, src/utils.py]
+  output: build/combined.py
+
+merge:
+  files: [config/base.yaml, config/prod.yaml]
+  output: build/config.yaml
+  strategy: deep
+
+generate:
+  method: pairwise
+  params:
+    python: ["3.10", "3.11", "3.12"]
+    os: ["linux", "macos", "windows"]
+  output: build/matrix.jsonl
+  seed: 42
+
+prompt:
+  system: |
+    You are an expert code reviewer.
+  instruction: |
+    Review the combined module and suggest improvements.
+  output: build/review_prompt.txt
+
+template:
+  file: templates/report.md.j2
+  data:
+    project: OpenComb
+    version: "0.2.0"
+  output: build/report.md
 ```
 
 ```bash
-opencomb generate -p params.yaml --method pairwise --limit 30
+opencomb recipe my_pipeline.yaml
 ```
 
 ## Development
@@ -110,13 +166,14 @@ git clone https://github.com/SlabyLol/OpenComb.git
 cd OpenComb
 pip install -e ".[dev]"
 pytest
+ruff check src tests
 ```
 
 ## License
 
-MIT © DarkFox Co.
+MIT © DarkFox Co. / SlabyLol
 
 ## Links
 
-- Repository: https://github.com/SlabyLol/OpenComb
-- Issues: https://github.com/SlabyLol/OpenComb/issues
+- **Repository**: https://github.com/SlabyLol/OpenComb
+- **Issues**: https://github.com/SlabyLol/OpenComb/issues
