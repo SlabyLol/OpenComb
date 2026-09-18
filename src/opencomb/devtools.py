@@ -1,4 +1,4 @@
-"""Extra developer tools: git summary, secrets scan, http, bench, jsonq, ports."""
+"""Developer tools: git, secrets, http, bench, jq, ports, clone, site."""
 
 from __future__ import annotations
 
@@ -22,8 +22,7 @@ SECRET_PATTERNS = [
     (re.compile(r"sk-[A-Za-z0-9]{20,}"), "OpenAI-style key"),
     (re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}"), "Slack token"),
 ]
-
-SKIP = {".git", "__pycache__", ".venv", "venv", "node_modules", "dist", "build", ".mypy_cache", ".ruff_cache"}
+SKIP = {".git", "__pycache__", ".venv", "venv", "node_modules", "dist", "build"}
 
 
 class GitHelper:
@@ -51,7 +50,7 @@ class SecretScanner:
         for dirpath, dirnames, filenames in os.walk(root):
             dirnames[:] = [d for d in dirnames if d not in SKIP]
             for name in filenames:
-                if name.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".pdf", ".zip", ".whl")):
+                if name.endswith((".png", ".jpg", ".zip", ".whl")):
                     continue
                 path = Path(dirpath) / name
                 try:
@@ -69,7 +68,7 @@ class SecretScanner:
 
 class HttpClient:
     def get(self, url: str, timeout: float = 15.0) -> dict[str, Any]:
-        req = urllib.request.Request(url, headers={"User-Agent": "OpenComb/0.10"})
+        req = urllib.request.Request(url, headers={"User-Agent": "OpenComb/0.11"})
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             body = resp.read()
             ctype = resp.headers.get("Content-Type", "")
@@ -85,8 +84,7 @@ class HttpClient:
 
 class Bench:
     def run(self, command: str, runs: int = 3) -> dict[str, Any]:
-        times: list[float] = []
-        codes: list[int] = []
+        times, codes = [], []
         for _ in range(max(1, runs)):
             start = time.perf_counter()
             r = subprocess.run(command, shell=True)
@@ -107,12 +105,7 @@ class JsonYamlQuery:
         if not path or path == ".":
             return cur
         for part in path.split("."):
-            if isinstance(cur, list):
-                cur = cur[int(part)]
-            elif isinstance(cur, dict):
-                cur = cur[part]
-            else:
-                raise KeyError(path)
+            cur = cur[int(part)] if isinstance(cur, list) else cur[part]
         return cur
 
 
@@ -130,4 +123,106 @@ class PortProbe:
             finally:
                 s.close()
             out.append({"port": p, "open": open_})
+        return out
+
+
+class GitClone:
+    def clone(self, url: str, dest: str | Path | None = None, *, branch: str | None = None, depth: int | None = None, recursive: bool = False) -> Path:
+        cmd = ["git", "clone"]
+        if branch:
+            cmd.extend(["--branch", branch, "--single-branch"])
+        if depth:
+            cmd.extend(["--depth", str(depth)])
+        if recursive:
+            cmd.append("--recurse-submodules")
+        cmd.append(url)
+        if dest:
+            cmd.append(str(dest))
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode != 0:
+            raise RuntimeError(r.stderr.strip() or r.stdout.strip() or "git clone failed")
+        if dest:
+            return Path(dest).resolve()
+        name = url.rstrip("/").split("/")[-1]
+        if name.endswith(".git"):
+            name = name[:-4]
+        return Path(name).resolve()
+
+
+class SiteCloner:
+    def __init__(self, user_agent: str = "OpenComb/0.11 (site-cloner)"):
+        self.user_agent = user_agent
+
+    def fetch(self, url: str, timeout: float = 30.0) -> tuple[bytes, str]:
+        req = urllib.request.Request(url, headers={"User-Agent": self.user_agent})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read(), resp.headers.get("Content-Type", "application/octet-stream")
+
+    def clone_page(self, url: str, out_dir: str | Path = "site_download", *, assets: bool = True, max_assets: int = 50, timeout: float = 30.0) -> Path:
+        from html.parser import HTMLParser
+        from urllib.parse import urljoin, urlparse
+
+        out = Path(out_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        data, ctype = self.fetch(url, timeout=timeout)
+        parsed = urlparse(url)
+        host = parsed.netloc
+        main_name = "index.html"
+        path = parsed.path.rstrip("/")
+        if path and not path.endswith("/"):
+            base = Path(path).name
+            if "." in base:
+                main_name = base
+        (out / main_name).write_bytes(data)
+        saved = [str(out / main_name)]
+        if not assets or "html" not in ctype.lower():
+            return out
+
+        class LinkCollector(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.links: list[str] = []
+
+            def handle_starttag(self, tag, attrs):
+                ad = dict(attrs)
+                for key in ("href", "src"):
+                    if key in ad and ad[key]:
+                        self.links.append(ad[key])
+
+        parser = LinkCollector()
+        try:
+            parser.feed(data.decode("utf-8", errors="ignore"))
+        except Exception:
+            return out
+
+        asset_dir = out / "assets"
+        asset_dir.mkdir(exist_ok=True)
+        count = 0
+        seen: set[str] = set()
+        for link in parser.links:
+            if count >= max_assets:
+                break
+            full = urljoin(url, link)
+            p = urlparse(full)
+            if p.scheme not in ("http", "https") or (p.netloc and p.netloc != host):
+                continue
+            if full in seen:
+                continue
+            seen.add(full)
+            lower = full.lower().split("?")[0]
+            if not any(lower.endswith(ext) for ext in (".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp", ".ico", ".woff", ".woff2", ".ttf", ".json")):
+                if "/static/" not in lower and "/assets/" not in lower:
+                    continue
+            try:
+                blob, _ = self.fetch(full, timeout=timeout)
+                name = Path(p.path).name or f"asset_{count}"
+                target = asset_dir / name
+                if target.exists():
+                    target = asset_dir / f"{count}_{name}"
+                target.write_bytes(blob)
+                saved.append(str(target))
+                count += 1
+            except Exception:
+                continue
+        (out / "download_report.txt").write_text(f"URL: {url}\nFiles: {len(saved)}\n" + "\n".join(saved), encoding="utf-8")
         return out
