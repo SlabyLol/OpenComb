@@ -1,0 +1,24 @@
+# OpenComb PRT – Hello
+let name = "OpenComb"
+print("Hello from", name, "!")
+print("2 + 3 =", 2 + 3)
+
+fn greet(who) {
+    print("Hi,", who)
+    return who
+}
+
+greet("developer")
+
+let nums = [1, 2, 3, 4, 5]
+var sum = 0
+for n in nums {
+    sum += n
+}
+print("sum =", sum)
+
+if sum > 10 {
+    print("sum is big")
+} else {
+    print("sum is small")
+}
