@@ -1,8 +1,4 @@
-"""
-OpenComb – Everything developers need:
-Code combine, configs, prompts, templates, recipes, env, packages (oc-pak),
-project init, checks, version bump, drill mode, reports and more.
-"""
+"""OpenComb – Developer Swiss Army Knife."""
 
 from opencomb.check import Checker
 from opencomb.combiner import CodeCombiner, ConfigMerger
@@ -16,8 +12,18 @@ from opencomb.prompt import PromptCombiner
 from opencomb.recipe import RecipeRunner
 from opencomb.report import ReportGenerator
 from opencomb.template import TemplateRenderer
+from opencomb.tools import (
+    Differ,
+    Hasher,
+    OutdatedChecker,
+    ProjectStats,
+    ReportServer,
+    Searcher,
+    TodoExtractor,
+    Watcher,
+)
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 __all__ = [
     "CodeCombiner",
     "ConfigMerger",
@@ -33,5 +39,13 @@ __all__ = [
     "Checker",
     "DrillShell",
     "start_drill",
+    "Searcher",
+    "TodoExtractor",
+    "ProjectStats",
+    "Differ",
+    "Hasher",
+    "OutdatedChecker",
+    "ReportServer",
+    "Watcher",
     "__version__",
 ]
