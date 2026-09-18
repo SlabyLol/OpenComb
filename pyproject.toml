@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.1.0"
-description = "OpenComb – Smart Combiner for Code, Configs, Prompts and Combinatorial Generation"
+version = "0.2.0"
+description = "OpenComb – Smart Combiner for Code, Configs, Prompts, Templates, Recipes & Combinatorial Generation"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -20,6 +20,9 @@ keywords = [
     "testing",
     "cli",
     "prompts",
+    "templates",
+    "recipes",
+    "jinja2",
     "opencomb"
 ]
 classifiers = [
@@ -43,6 +46,7 @@ dependencies = [
     "tomli>=2.0.0; python_version < '3.11'",
     "tomli-w>=1.0.0",
     "click>=8.0.0",
+    "jinja2>=3.1.0",
 ]
 
 [project.optional-dependencies]
@@ -69,6 +73,7 @@ packages = ["src/opencomb"]
 include = [
     "/src",
     "/tests",
+    "/examples",
     "/README.md",
     "/LICENSE",
 ]
