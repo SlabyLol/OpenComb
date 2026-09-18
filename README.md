@@ -6,6 +6,10 @@
 [![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<p align="center">
+  <img src="docs/logo.svg" alt="OpenComb Logo" width="160"/>
+</p>
+
 OpenComb is a practical developer toolkit that helps you:
 
 - **Combine** multiple Python source files / snippets into one clean module (with import deduplication)
