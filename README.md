@@ -1,107 +1,88 @@
 # OpenComb
 
-**Smart Combiner for Code, Configs, Prompts, Templates, Recipes, Env Files & Combinatorial Generation**
+**Smart Combiner + Package Helper for developers**
 
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
-[![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
   <img src="docs/logo.svg" alt="OpenComb Logo" width="160"/>
 </p>
 
-**OpenComb** is a powerful developer toolkit that helps you combine, merge, generate and orchestrate almost everything you need while coding.
+**OpenComb** helps you combine code, merge configs, build prompts, run recipes **and** manage packages from PyPI.
 
-### Features (v0.3.0)
+### Features (v0.4.0)
 
-| Feature | CLI | Library | Description |
-|---------|-----|---------|-------------|
-| Code Combining | `combine` | `CodeCombiner` | Merge Python files + import dedupe + **remote URLs** |
-| Config Merging | `merge` | `ConfigMerger` | Deep / shallow YAML · JSON · TOML |
-| Env Merging | `env` | `EnvMerger` | Merge `.env` files + bash export scripts |
-| Combinatorial | `generate` | `CombinatorialGenerator` | Cartesian · Pairwise · Sample + **constraints** |
-| Prompt Building | `prompt` | `PromptCombiner` | Structured LLM prompts |
-| Templates | `template` | `TemplateRenderer` | Full Jinja2 support |
-| Recipes | `recipe` | `RecipeRunner` | Declarative multi-step pipelines |
-| Formatting | `format` | `CodeFormatter` | ruff / black / basic cleanup |
-| Reports | `--report` / `--html` | `ReportGenerator` | Markdown + beautiful HTML reports |
-| Doctor | `doctor` | – | Check installation & optional tools |
+| Feature | CLI | Description |
+|---------|-----|-------------|
+| Code Combining | `combine` | Local + remote URLs, import dedupe, format |
+| Config Merging | `merge` | YAML / JSON / TOML deep & shallow |
+| Env Merging | `env` | `.env` files + bash export |
+| Combinatorial | `generate` | Cartesian / pairwise / sample + constraints + HTML reports |
+| Prompts | `prompt` | Structured LLM prompts |
+| Templates | `template` | Jinja2 |
+| Recipes | `recipe` | Full declarative pipelines |
+| **Packages (oc-pak)** | `pak add/remove/list/show/info/freeze` | Install & inspect packages from PyPI |
+| Formatting | `format` | ruff / black |
+| Doctor | `doctor` | Health check |
 
 ## Installation
 
 ```bash
 pip install opencomb
-
-# Optional extras
-pip install "opencomb[format]"   # ruff + black
+# or
+pip install "opencomb[format]"
 ```
 
-## Quick Examples
+## Package commands (oc-pak)
 
 ```bash
-# Combine local + remote files
-opencomb combine a.py b.py https://raw.githubusercontent.com/.../utils.py -o combined.py --format
+# Install packages from PyPI
+opencomb pak add requests rich
+opencomb pak add "httpx>=0.27" --upgrade
 
-# Merge configs
+# List / show / info
+opencomb pak list
+opencomb pak show requests
+opencomb pak info httpx          # latest version & summary from PyPI
+
+# Freeze
+opencomb pak freeze -o requirements.txt
+
+# Remove
+opencomb pak remove some-package
+```
+
+## Other examples
+
+```bash
+opencomb combine a.py b.py https://example.com/c.py -o out.py --format
 opencomb merge base.yaml prod.yaml -o final.yaml
-
-# Merge .env files
-opencomb env .env .env.local --export -o load_env.sh
-
-# Generate + HTML report
+opencomb env .env .env.local --export -o load.sh
 opencomb generate -p params.yaml --method pairwise --html
-
-# Build LLM prompt
-opencomb prompt -s system.txt -i task.txt -u query.txt -o prompt.txt
-
-# Run full recipe
 opencomb recipe my_pipeline.yaml
-
-# Format code
-opencomb format src/**/*.py --inplace
-
-# Check health
 opencomb doctor
 ```
 
-## Library Usage
+## Library
 
 ```python
-from opencomb import (
-    CodeCombiner, ConfigMerger, CombinatorialGenerator,
-    PromptCombiner, TemplateRenderer, RecipeRunner,
-    EnvMerger, CodeFormatter, ReportGenerator,
-)
+from opencomb import PackageManager, CombinatorialGenerator, CodeCombiner
 
-# Constraints example
-gen = CombinatorialGenerator(seed=42)
-params = {
-    "os": ["linux", "windows", "macos"],
-    "python": ["3.10", "3.11", "3.12"],
-    "arch": ["x64", "arm64"],
-}
-# Only allow arm64 on macos
-constraints = [
-    lambda c: not (c["arch"] == "arm64" and c["os"] != "macos")
-]
-combos = gen.pairwise(params, constraints=constraints)
+pm = PackageManager()
+pm.add(["requests", "rich"])
+info = pm.info_summary("httpx")
+print(info["version"], info["summary"])
 ```
 
-## Publishing to PyPI
+## Publish
 
-This repository includes full CI + PyPI publish workflows.
+```bash
+git tag v0.4.0
+git push origin v0.4.0
+# then create GitHub Release → auto publish via publish.yml
+```
 
-1. Configure **Trusted Publishing** on PyPI for `SlabyLol/OpenComb` → workflow `publish.yml`
-2. Tag a release:
-   ```bash
-   git tag v0.3.0
-   git push origin v0.3.0
-   ```
-3. Create a GitHub Release → automatic upload to PyPI
-
-## License
-
-MIT © DarkFox Co. / SlabyLol
-
-**Repo**: https://github.com/SlabyLol/OpenComb
+**Repo**: https://github.com/SlabyLol/OpenComb  
+MIT © DarkFox Co.
