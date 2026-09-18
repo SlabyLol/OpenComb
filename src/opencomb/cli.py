@@ -18,6 +18,7 @@ from opencomb import __version__
 from opencomb.check import Checker
 from opencomb.combiner import CodeCombiner, ConfigMerger
 from opencomb.combinatorial import CombinatorialGenerator
+from opencomb.drill import start_drill
 from opencomb.env import EnvMerger
 from opencomb.formatter import CodeFormatter
 from opencomb.pak import PackageManager
@@ -206,6 +207,15 @@ def ignore_cmd(output: Path = typer.Option(Path(".gitignore"), "--output", "-o")
     path = ProjectHelper().write_gitignore(output)
     console.print(f"[green]✓[/] {path}")
 
+@app.command("drill")
+def drill_cmd(path: Path = typer.Argument(Path("."), help="Directory to lock into")) -> None:
+    """Enter interactive OpenComb shell locked to a directory (bright-red messages)."""
+    try:
+        start_drill(path)
+    except Exception as e:
+        console.print(f"[bold bright_red]Error:[/] {e}")
+        raise typer.Exit(1)
+
 @pak_app.command("add")
 def pak_add(packages: list[str] = typer.Argument(...), upgrade: bool = typer.Option(False, "--upgrade", "-U"), user: bool = typer.Option(False, "--user")) -> None:
     """Install packages from PyPI."""
@@ -279,7 +289,7 @@ def info_cmd() -> None:
     console.print(Panel.fit(f"""[bold cyan]OpenComb[/] v{__version__}
 
 [bold]Main:[/] combine · merge · env · generate · prompt · template · recipe · format
-[bold]Project:[/] init · tree · bump · check · ignore
+[bold]Project:[/] init · tree · bump · check · ignore · drill
 [bold]Packages:[/] pak add · remove · list · show · info · freeze
 [bold]Other:[/] doctor · info
 
