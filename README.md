@@ -1,6 +1,6 @@
 # OpenComb
 
-**Smart Combiner for Code, Configs, Prompts, Templates, Recipes & Combinatorial Generation**
+**Smart Combiner for Code, Configs, Prompts, Templates, Recipes, Env Files & Combinatorial Generation**
 
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
@@ -8,207 +8,100 @@
 [![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
 
 <p align="center">
-  <img src="[https://github.com/SlabyLol/OpenComb/blob/main/docs/logo.svg](https://github.com/SlabyLol/OpenComb/blob/main/docs/logo.svg)" alt="OpenComb Logo" width="160"/>
+  <img src="docs/logo.svg" alt="OpenComb Logo" width="160"/>
 </p>
 
-**OpenComb** is a powerful, practical toolkit for developers that helps you:
+**OpenComb** is a powerful developer toolkit that helps you combine, merge, generate and orchestrate almost everything you need while coding.
 
-- **Combine** multiple Python source files into one clean module (with smart import deduplication)
-- **Merge** YAML, JSON and TOML configs intelligently (deep or shallow)
-- **Generate** combinatorial parameter sets (cartesian, pairwise testing, sampling)
-- **Build** structured LLM prompts from system / instruction / context / few-shot / user parts
-- **Render** Jinja2 templates (single or multi-file)
-- **Run declarative recipes** that orchestrate all of the above in one YAML file
+### Features (v0.3.0)
 
-Perfect for rapid prototyping, test matrix generation, config management, AI/prompt engineering and automation pipelines.
+| Feature | CLI | Library | Description |
+|---------|-----|---------|-------------|
+| Code Combining | `combine` | `CodeCombiner` | Merge Python files + import dedupe + **remote URLs** |
+| Config Merging | `merge` | `ConfigMerger` | Deep / shallow YAML · JSON · TOML |
+| Env Merging | `env` | `EnvMerger` | Merge `.env` files + bash export scripts |
+| Combinatorial | `generate` | `CombinatorialGenerator` | Cartesian · Pairwise · Sample + **constraints** |
+| Prompt Building | `prompt` | `PromptCombiner` | Structured LLM prompts |
+| Templates | `template` | `TemplateRenderer` | Full Jinja2 support |
+| Recipes | `recipe` | `RecipeRunner` | Declarative multi-step pipelines |
+| Formatting | `format` | `CodeFormatter` | ruff / black / basic cleanup |
+| Reports | `--report` / `--html` | `ReportGenerator` | Markdown + beautiful HTML reports |
+| Doctor | `doctor` | – | Check installation & optional tools |
 
 ## Installation
 
 ```bash
 pip install opencomb
+
+# Optional extras
+pip install "opencomb[format]"   # ruff + black
 ```
 
-Or with uv:
+## Quick Examples
 
 ```bash
-uv add opencomb
+# Combine local + remote files
+opencomb combine a.py b.py https://raw.githubusercontent.com/.../utils.py -o combined.py --format
+
+# Merge configs
+opencomb merge base.yaml prod.yaml -o final.yaml
+
+# Merge .env files
+opencomb env .env .env.local --export -o load_env.sh
+
+# Generate + HTML report
+opencomb generate -p params.yaml --method pairwise --html
+
+# Build LLM prompt
+opencomb prompt -s system.txt -i task.txt -u query.txt -o prompt.txt
+
+# Run full recipe
+opencomb recipe my_pipeline.yaml
+
+# Format code
+opencomb format src/**/*.py --inplace
+
+# Check health
+opencomb doctor
 ```
 
-## Features at a Glance
-
-| Feature              | CLI Command     | Library Class            | Description                                      |
-|----------------------|-----------------|--------------------------|--------------------------------------------------|
-| Code Combining       | `combine`       | `CodeCombiner`           | Merge Python files + import dedupe               |
-| Config Merging       | `merge`         | `ConfigMerger`           | Deep / shallow YAML·JSON·TOML                    |
-| Combinatorial Gen    | `generate`      | `CombinatorialGenerator` | Cartesian · Pairwise · Sample                    |
-| Prompt Building      | `prompt`        | `PromptCombiner`         | Structured LLM prompts                           |
-| Template Rendering   | `template`      | `TemplateRenderer`       | Jinja2 power                                     |
-| Recipe Runner        | `recipe`        | `RecipeRunner`           | Full pipelines in one YAML                       |
-
-## Quick Start – CLI
-
-```bash
-# Combine Python files
-opencomb combine module_a.py module_b.py utils.py -o combined.py
-
-# Merge configs (later files win)
-opencomb merge base.yaml local.yaml secrets.toml -o final.yaml
-
-# Generate combinations
-opencomb generate -p params.yaml --method pairwise --report
-
-# Build an LLM prompt
-opencomb prompt \
-  --system system.txt \
-  --instruction task.txt \
-  --examples fewshot.yaml \
-  --user query.txt \
-  -o final_prompt.txt
-
-# Render Jinja2 templates
-opencomb template template.j2 --data data.yaml -o output.md
-
-# Run a full recipe
-opencomb recipe examples/sample_recipe.yaml
-opencomb recipe examples/sample_recipe.yaml --dry-run --verbose
-```
-
-## Quick Start – Library
+## Library Usage
 
 ```python
 from opencomb import (
-    CodeCombiner,
-    ConfigMerger,
-    CombinatorialGenerator,
-    PromptCombiner,
-    TemplateRenderer,
-    RecipeRunner,
+    CodeCombiner, ConfigMerger, CombinatorialGenerator,
+    PromptCombiner, TemplateRenderer, RecipeRunner,
+    EnvMerger, CodeFormatter, ReportGenerator,
 )
 
-# Code
-combiner = CodeCombiner()
-code = combiner.combine_files(["a.py", "b.py"])
-
-# Config
-merger = ConfigMerger()
-config = merger.merge_files(["base.yaml", "override.yaml"])
-merger.save(config, "result.yaml")
-
-# Combinations
+# Constraints example
 gen = CombinatorialGenerator(seed=42)
-params = {"lr": [0.001, 0.01], "batch": [16, 32], "opt": ["adam", "sgd"]}
-all_combos = gen.cartesian(params)
-pairwise   = gen.pairwise(params)   # much smaller & efficient
-
-# Prompts
-pc = PromptCombiner()
-prompt = pc.combine(
-    system="You are a senior Python engineer.",
-    instruction="Review the following code.",
-    examples=[{"input": "x=1", "output": "Looks fine."}],
-    user="def foo(): pass",
-)
-
-# Templates
-renderer = TemplateRenderer()
-html = renderer.render_string("<h1>{{ title }}</h1>", title="OpenComb")
-
-# Recipes
-runner = RecipeRunner()
-results = runner.run("my_recipe.yaml")
-```
-
-## Recipe Example
-
-```yaml
-# my_pipeline.yaml
-name: full-pipeline
-
-combine:
-  files: [src/a.py, src/b.py, src/utils.py]
-  output: build/combined.py
-
-merge:
-  files: [config/base.yaml, config/prod.yaml]
-  output: build/config.yaml
-  strategy: deep
-
-generate:
-  method: pairwise
-  params:
-    python: ["3.10", "3.11", "3.12"]
-    os: ["linux", "macos", "windows"]
-  output: build/matrix.jsonl
-  seed: 42
-
-prompt:
-  system: |
-    You are an expert code reviewer.
-  instruction: |
-    Review the combined module and suggest improvements.
-  output: build/review_prompt.txt
-
-template:
-  file: templates/report.md.j2
-  data:
-    project: OpenComb
-    version: "0.2.0"
-  output: build/report.md
-```
-
-```bash
-opencomb recipe my_pipeline.yaml
+params = {
+    "os": ["linux", "windows", "macos"],
+    "python": ["3.10", "3.11", "3.12"],
+    "arch": ["x64", "arm64"],
+}
+# Only allow arm64 on macos
+constraints = [
+    lambda c: not (c["arch"] == "arm64" and c["os"] != "macos")
+]
+combos = gen.pairwise(params, constraints=constraints)
 ```
 
 ## Publishing to PyPI
 
-This repository includes ready-to-use GitHub Actions:
+This repository includes full CI + PyPI publish workflows.
 
-- **CI** (`.github/workflows/ci.yml`) – runs tests on Python 3.10–3.13 + builds the package
-- **Publish** (`.github/workflows/publish.yml`) – publishes to PyPI when you create a GitHub Release
-
-### How to release
-
-1. Make sure the version in `pyproject.toml` is correct (currently `0.2.0`)
-2. Create a new GitHub Release (or tag):
+1. Configure **Trusted Publishing** on PyPI for `SlabyLol/OpenComb` → workflow `publish.yml`
+2. Tag a release:
    ```bash
-   git tag v0.2.0
-   git push origin v0.2.0
+   git tag v0.3.0
+   git push origin v0.3.0
    ```
-   Then create a Release on GitHub from that tag.
-3. The `publish.yml` workflow will automatically build and upload to PyPI.
-
-### Trusted Publishing (recommended)
-
-1. Go to https://pypi.org/manage/account/publishing/
-2. Add a new pending publisher:
-   - **PyPI Project Name**: `opencomb`
-   - **Owner**: `SlabyLol`
-   - **Repository name**: `OpenComb`
-   - **Workflow name**: `publish.yml`
-   - **Environment name**: `pypi`
-3. Create the project on PyPI if it doesn’t exist yet (first upload will create it).
-
-Alternatively you can use a classic API token:
-- Create a token on PyPI → add it as repository secret `PYPI_TOKEN`
-- Uncomment the token-based step in `publish.yml`
-
-## Development
-
-```bash
-git clone https://github.com/SlabyLol/OpenComb.git
-cd OpenComb
-pip install -e ".[dev]"
-pytest
-ruff check src tests
-```
+3. Create a GitHub Release → automatic upload to PyPI
 
 ## License
 
 MIT © DarkFox Co. / SlabyLol
 
-## Links
-
-- **Repository**: https://github.com/SlabyLol/OpenComb
-- **Issues**: https://github.com/SlabyLol/OpenComb/issues
-- **PyPI**: https://pypi.org/project/opencomb/
+**Repo**: https://github.com/SlabyLol/OpenComb
