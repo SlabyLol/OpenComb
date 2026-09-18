@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.3.0"
-description = "OpenComb – Smart Combiner for Code, Configs, Prompts, Templates, Recipes, Env & Combinatorial Generation"
+version = "0.4.0"
+description = "OpenComb – Smart Combiner + Package Helper (oc-pak) for Code, Configs, Prompts, Recipes & PyPI"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -15,7 +15,7 @@ authors = [
 keywords = [
     "combiner", "code-generation", "config-merge", "combinatorial",
     "testing", "cli", "prompts", "templates", "recipes", "jinja2",
-    "dotenv", "opencomb"
+    "dotenv", "pypi", "package-manager", "opencomb"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
