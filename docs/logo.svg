@@ -7,10 +7,11 @@
   <g fill="#22d3ee">
     <rect x="55" y="60" width="12" height="80" rx="3"/>
     <rect x="75" y="50" width="12" height="100" rx="3"/>
-    <rect x="95" y="45" width="12" height="110" rx="3"/>
     <rect x="115" y="50" width="12" height="100" rx="3"/>
     <rect x="135" y="60" width="12" height="80" rx="3"/>
   </g>
+
+  <rect x="95" y="45" width="12" height="110" rx="3" fill="#4a0202"/>
   <!-- Accent dots -->
   <circle cx="61" cy="50" r="4" fill="#a5f3fc"/>
   <circle cx="81" cy="40" r="4" fill="#a5f3fc"/>
