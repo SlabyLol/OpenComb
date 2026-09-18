@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.6.0"
-description = "OpenComb – Everything developers need: combine, merge, pak, init, check, drill & more"
+version = "0.7.0"
+description = "OpenComb – Developer Swiss Army Knife: combine, pak, drill, search, watch & more"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -13,9 +13,8 @@ authors = [
     { name = "DarkFox Co.", email = "darkfox-to@proton.me" }
 ]
 keywords = [
-    "combiner", "code-generation", "config-merge", "combinatorial",
-    "testing", "cli", "prompts", "templates", "recipes", "jinja2",
-    "dotenv", "pypi", "package-manager", "scaffold", "drill", "opencomb"
+    "combiner", "cli", "devtools", "search", "todos", "watch",
+    "pypi", "scaffold", "drill", "opencomb"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -27,7 +26,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Code Generators",
     "Topic :: Utilities",
     "Environment :: Console",
 ]
@@ -53,20 +51,13 @@ opencomb = "opencomb.cli:app"
 Homepage = "https://github.com/SlabyLol/OpenComb"
 Repository = "https://github.com/SlabyLol/OpenComb"
 Issues = "https://github.com/SlabyLol/OpenComb/issues"
-Documentation = "https://github.com/SlabyLol/OpenComb#readme"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/opencomb"]
 
-[tool.hatch.build.targets.sdist]
-include = ["/src", "/tests", "/examples", "/README.md", "/LICENSE"]
-
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
