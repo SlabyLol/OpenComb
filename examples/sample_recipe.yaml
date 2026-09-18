@@ -1,0 +1,22 @@
+# OpenComb Sample Recipe
+name: demo-pipeline
+
+# Generate a test matrix
+generate:
+  method: pairwise
+  params:
+    python: ["3.10", "3.11", "3.12"]
+    os: ["linux", "macos"]
+    arch: ["x64", "arm64"]
+  output: build/test_matrix.jsonl
+  seed: 42
+
+# Build a prompt
+prompt:
+  system: |
+    You are a helpful Python expert.
+  instruction: |
+    Explain the following code clearly and suggest improvements.
+  user: |
+    How does the pairwise generator work?
+  output: build/prompt.txt
