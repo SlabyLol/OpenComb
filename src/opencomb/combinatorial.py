@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import itertools
 import random
+from collections.abc import Callable
 from typing import Any, Iterator
 
 
@@ -11,7 +12,11 @@ class CombinatorialGenerator:
     """
     Generate combinations of parameters.
 
-    Supports full cartesian product and efficient pairwise (all-pairs) testing.
+    Supports:
+    - Full cartesian product
+    - Efficient pairwise (all-pairs) testing
+    - Random sampling
+    - Constraints (filter invalid combinations)
     """
 
     def __init__(self, seed: int | None = None):
@@ -22,17 +27,8 @@ class CombinatorialGenerator:
         parameters: dict[str, list[Any]],
         *,
         limit: int | None = None,
+        constraints: list[Callable[[dict[str, Any]], bool]] | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Generate the full cartesian product of parameter values.
-
-        Args:
-            parameters: Mapping of parameter name → list of possible values.
-            limit: Optional maximum number of combinations to return.
-
-        Returns:
-            List of dictionaries, each representing one combination.
-        """
         if not parameters:
             return [{}]
 
@@ -41,7 +37,10 @@ class CombinatorialGenerator:
 
         combos = []
         for values in itertools.product(*value_lists):
-            combos.append(dict(zip(keys, values)))
+            combo = dict(zip(keys, values))
+            if constraints and not all(c(combo) for c in constraints):
+                continue
+            combos.append(combo)
             if limit is not None and len(combos) >= limit:
                 break
 
@@ -52,21 +51,18 @@ class CombinatorialGenerator:
         parameters: dict[str, list[Any]],
         *,
         limit: int | None = None,
+        constraints: list[Callable[[dict[str, Any]], bool]] | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Generate a (near) minimal set of combinations that cover all pairwise
-        interactions between parameters. Very useful for efficient testing.
-
-        This is a simple greedy implementation – good enough for most practical cases.
-        """
         if not parameters:
             return [{}]
 
         keys = list(parameters.keys())
         if len(keys) == 1:
-            return [{keys[0]: v} for v in parameters[keys[0]]]
+            combos = [{keys[0]: v} for v in parameters[keys[0]]]
+            if constraints:
+                combos = [c for c in combos if all(fn(c) for fn in constraints)]
+            return combos
 
-        # Generate all required pairs
         required_pairs: set[tuple[tuple[str, Any], tuple[str, Any]]] = set()
         for i, k1 in enumerate(keys):
             for k2 in keys[i + 1 :]:
@@ -74,27 +70,34 @@ class CombinatorialGenerator:
                     for v2 in parameters[k2]:
                         required_pairs.add(((k1, v1), (k2, v2)))
 
-        # Greedy covering
         uncovered = required_pairs.copy()
         result: list[dict[str, Any]] = []
 
-        # Start with a few random full combinations to seed
-        for _ in range(min(5, len(list(itertools.product(*[parameters[k] for k in keys]))))):
+        product_size = 1
+        for v in parameters.values():
+            product_size *= max(1, len(v))
+        seed_count = min(8, product_size)
+
+        attempts = 0
+        while len(result) < seed_count and attempts < seed_count * 20:
+            attempts += 1
             combo = {k: self.rng.choice(parameters[k]) for k in keys}
+            if constraints and not all(c(combo) for c in constraints):
+                continue
             result.append(combo)
             self._cover(combo, uncovered)
 
-        # Keep adding combinations that cover the most remaining pairs
-        max_iterations = 1000
+        max_iterations = 2000
         iteration = 0
         while uncovered and iteration < max_iterations:
             iteration += 1
             best_combo = None
             best_cover = 0
 
-            # Try a limited number of candidates
-            for _ in range(50):
+            for _ in range(80):
                 candidate = {k: self.rng.choice(parameters[k]) for k in keys}
+                if constraints and not all(c(candidate) for c in constraints):
+                    continue
                 cover_count = self._count_cover(candidate, uncovered)
                 if cover_count > best_cover:
                     best_cover = cover_count
@@ -115,30 +118,38 @@ class CombinatorialGenerator:
         self,
         parameters: dict[str, list[Any]],
         n: int,
+        *,
+        constraints: list[Callable[[dict[str, Any]], bool]] | None = None,
     ) -> list[dict[str, Any]]:
-        """Randomly sample n combinations (with replacement if necessary)."""
         if not parameters:
             return [{}] * n
 
         keys = list(parameters.keys())
         result = []
-        for _ in range(n):
-            result.append({k: self.rng.choice(parameters[k]) for k in keys})
+        attempts = 0
+        max_attempts = n * 50
+
+        while len(result) < n and attempts < max_attempts:
+            attempts += 1
+            combo = {k: self.rng.choice(parameters[k]) for k in keys}
+            if constraints and not all(c(combo) for c in constraints):
+                continue
+            result.append(combo)
+
         return result
 
     def iterate(
         self,
         parameters: dict[str, list[Any]],
         method: str = "cartesian",
+        *,
+        constraints: list[Callable[[dict[str, Any]], bool]] | None = None,
     ) -> Iterator[dict[str, Any]]:
-        """Lazy iterator over combinations."""
         if method == "cartesian":
-            keys = list(parameters.keys())
-            value_lists = [parameters[k] for k in keys]
-            for values in itertools.product(*value_lists):
-                yield dict(zip(keys, values))
+            for combo in self.cartesian(parameters, constraints=constraints):
+                yield combo
         else:
-            for combo in self.pairwise(parameters):
+            for combo in self.pairwise(parameters, constraints=constraints):
                 yield combo
 
     @staticmethod
@@ -151,7 +162,6 @@ class CombinatorialGenerator:
             for k2 in keys[i + 1 :]:
                 pair = ((k1, combo[k1]), (k2, combo[k2]))
                 uncovered.discard(pair)
-                # also the reverse order just in case
                 uncovered.discard(((k2, combo[k2]), (k1, combo[k1])))
 
     @staticmethod
