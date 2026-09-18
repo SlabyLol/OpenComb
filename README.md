@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
 
 <p align="center">
   <img src="docs/logo.svg" alt="OpenComb Logo" width="160"/>
@@ -159,6 +160,39 @@ template:
 opencomb recipe my_pipeline.yaml
 ```
 
+## Publishing to PyPI
+
+This repository includes ready-to-use GitHub Actions:
+
+- **CI** (`.github/workflows/ci.yml`) – runs tests on Python 3.10–3.13 + builds the package
+- **Publish** (`.github/workflows/publish.yml`) – publishes to PyPI when you create a GitHub Release
+
+### How to release
+
+1. Make sure the version in `pyproject.toml` is correct (currently `0.2.0`)
+2. Create a new GitHub Release (or tag):
+   ```bash
+   git tag v0.2.0
+   git push origin v0.2.0
+   ```
+   Then create a Release on GitHub from that tag.
+3. The `publish.yml` workflow will automatically build and upload to PyPI.
+
+### Trusted Publishing (recommended)
+
+1. Go to https://pypi.org/manage/account/publishing/
+2. Add a new pending publisher:
+   - **PyPI Project Name**: `opencomb`
+   - **Owner**: `SlabyLol`
+   - **Repository name**: `OpenComb`
+   - **Workflow name**: `publish.yml`
+   - **Environment name**: `pypi`
+3. Create the project on PyPI if it doesn’t exist yet (first upload will create it).
+
+Alternatively you can use a classic API token:
+- Create a token on PyPI → add it as repository secret `PYPI_TOKEN`
+- Uncomment the token-based step in `publish.yml`
+
 ## Development
 
 ```bash
@@ -177,3 +211,4 @@ MIT © DarkFox Co. / SlabyLol
 
 - **Repository**: https://github.com/SlabyLol/OpenComb
 - **Issues**: https://github.com/SlabyLol/OpenComb/issues
+- **PyPI**: https://pypi.org/project/opencomb/
