@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.8.0"
-description = "OpenComb – Developer Swiss Army Knife with animated interactive build"
+version = "0.9.0"
+description = "OpenComb – Dev toolkit + PRT (.prt) programming language"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "DarkFox Co.", email = "darkfox-to@proton.me" }]
-keywords = ["cli", "devtools", "build", "opencomb"]
+keywords = ["cli", "devtools", "prt", "language", "opencomb"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -34,5 +34,6 @@ format = ["ruff>=0.5.0", "black>=24.0.0"]
 opencomb = "opencomb.cli:app"
 [project.urls]
 Homepage = "https://github.com/SlabyLol/OpenComb"
+Repository = "https://github.com/SlabyLol/OpenComb"
 [tool.hatch.build.targets.wheel]
 packages = ["src/opencomb"]
