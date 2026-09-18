@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.5.0"
-description = "OpenComb – Everything developers need: combine, merge, pak, init, check, recipes & more"
+version = "0.6.0"
+description = "OpenComb – Everything developers need: combine, merge, pak, init, check, drill & more"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -15,7 +15,7 @@ authors = [
 keywords = [
     "combiner", "code-generation", "config-merge", "combinatorial",
     "testing", "cli", "prompts", "templates", "recipes", "jinja2",
-    "dotenv", "pypi", "package-manager", "scaffold", "opencomb"
+    "dotenv", "pypi", "package-manager", "scaffold", "drill", "opencomb"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
