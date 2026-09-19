@@ -1,9 +1,8 @@
 # OpenComb
 
-**Developer Swiss Army Knife** – combine, build, search, packages, and a full **`.prt` programming language**.
+**Developer Swiss Army Knife** – combine, build, drill, PRT language, **56+ templates**, **PyRunner**, and more.
 
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
-[![Python](https://img.shields.io/pypi/pyversions/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -13,59 +12,52 @@
 
 ```bash
 pip install opencomb
-pip install "opencomb[format]"
 ```
 
-## Features (v0.10.0)
+## Highlights (v0.13.0)
 
-| Area | Commands | Description |
-|------|----------|-------------|
-| **PRT** | `prt` · `run` | Own `.prt` language + REPL |
-| **Build** | `build` | Interactive menu, 20 targets, animations |
-| **Drill** | `drill` | Shell locked to one directory |
-| **Code / Config** | `combine` · `format` · `merge` · `env` | Merge code/configs/env |
-| **Generate** | `generate` · `prompt` · `template` · `recipe` | Matrices, LLM prompts, Jinja2, pipelines |
-| **Packages** | `pak …` | Install/inspect from PyPI |
-| **Project** | `init` · `tree` · `bump` · `ignore` · `check` | Scaffold & quality |
-| **Power** | `search` · `todos` · `stats` · `diff` · `hash` · `outdated` · `serve` · `watch` | Everyday tools |
-| **DevOps** | `git` · `secrets` · `http` · `bench` · `jq` · `ports` | Git, secret scan, HTTP, bench, JSON/YAML, ports |
+| Area | Commands |
+|------|----------|
+| **Templates** | `templates` · `new` – 56+ scaffolds |
+| **PyRunner** | `new pyrunner` – Python in the browser (Pyodide), packages via JSON only |
+| **PRT** | `prt` · `run` |
+| **Build / Drill** | `build` · `drill` |
+| **Clone / Site** | `clone` · `site` |
+| **DevOps** | `git` · `secrets` · `http` · `bench` · `jq` · `ports` |
+| **Power** | `search` · `todos` · `stats` · `diff` · `hash` · `outdated` · `serve` · `watch` |
+| **Packages** | `pak …` |
+| **Code / Config** | `combine` · `merge` · `env` · `generate` · `recipe` |
+
+## PyRunner
+
+Run Python **online in the browser** (Pyodide). Package list is **only** `packages.json` – **no GUI**.
+
+```bash
+opencomb new pyrunner my-runner
+cd my-runner
+python -m http.server 8080
+# edit packages.json, reload page
+```
+
+## Templates
+
+```bash
+opencomb templates
+opencomb new
+opencomb new fastapi my-api
+opencomb new pyrunner web-py
+```
 
 ## Quick start
 
 ```bash
-opencomb init my-app && cd my-app
+opencomb init my-app
 opencomb pak add requests
 opencomb build
 opencomb drill .
-opencomb prt -e 'print(2+3)'
-opencomb git
-opencomb secrets .
-opencomb ports --ports 3000,8000
-```
-
-## PRT language
-
-```bash
-opencomb prt script.prt
-opencomb prt -e 'print("hi", 1+2)'
-opencomb prt   # REPL
-```
-
-```prt
-fn add(a, b) { return a + b }
-print(add(2, 3))
-write("out.txt", "from PRT")
-```
-
-## DevOps helpers
-
-```bash
-opencomb git
-opencomb secrets .
-opencomb http https://httpbin.org/json
-opencomb bench "python -c 'print(42)'" -n 5
-opencomb jq config.yaml database.host
-opencomb ports --ports 80,443,8000
+opencomb prt -e 'print(1+2)'
+opencomb clone https://github.com/user/repo.git
+opencomb site https://example.com -o mirror
 ```
 
 ## Links
