@@ -1,7 +1,85 @@
-"""Auto-extracted template builders a."""
-import zlib, base64
-_CODE = zlib.decompress(base64.b64decode(
-"eNrNXOt227ay/q+nQJDVbaqRKMtJ2hwl8qpjK4lbx/axlaZdlhZLkZDEmCJZgrSl46219juc/YT7SfYMAN4k0pfYjduLzQswGAy+uWFAU0r7bBa4ZsTIKHZcm4Wc7OiU0to49GfEMMZxFIfMMIgzC/wwIqbn+ZEZOb7HZRM/YJ7lz0Z6pAhxY2RylrR/57jsNGBWgxjB+QR/LoLQ/8KsCK4nTuRMPD9ktZrNxiQKXGPmeM7MdDXPnLEO4VFYJ81t4jo8OktIDTs1Av8EpCtoiqZ18ShkwKxHzsQN/pN00Wg6rB75M5fmGREEGoR+lEOT40U09T0SmNa5OWG0Xm+U0NNT3ml+Ilp565Pezt7Hnj6zofGYPiVXOORy4A28ZFA1mj7waBmFMeWh1boKli3DgB6RYejBAoltGMYFLBqsB6xRl9BNva1v0oG3cROVmel4GZUgdLxIox+Y6/pErKtkkdYrSFFY6Ii38KfBZ/45U5SoWEh86p9r9c7Aw14m5wyw0A9jls1vWMtW3XKdx1jx3YN9YgYBvDuj0SJg4XYX5LcF9zR0rOl2t/2cDhtSFB2YG0hOB1Y72Gf51+Lijz/+ADWaDrzACYjj8ch0XdJkBAAiG5Fmc8rcQLS8I2i+EjMw8wQuGxtKvYXUpCFAiSVaL+BUq4GcgL5oo/fxp4Ysd6maAYif1mu1n6CZDiZkZnq2VheYmCIOM0Qgk5d+6Nq0LpEABurUXMhmwloJeAgMj+nZyHdtMgkZ84YC0GetIbmSYy6f4IjOGCwb3uP8gXaiDVRSB36AD5jkTcBPJZKhXgogRb6QDCXPALvP4LcSD/QrKAbSgUHLdWNswuIHj6If72DoneN9AkxeOBYTeqLYEZrS3sS5x/DOD70zeO7ZZmgP8d3Wj3T4aBqiOCKor7iyqLCgLyFzfdP+hhqDY2cqI7CgxJe6RynhRFXUrRY5kcsSPYHuavCuGjhRmgkDm92iUmdC30fc5Zf96oqiqeqQjBKF4aOY4zP/nC6XBUpTZrrRlCY6iDfrFOXzBVBAew4UqhRFZ96FzuYmhAW41PTD0WkfkCH+HXjHRyf97qvNzc2KpcjrGQgscS/SN6l1TYMS1J2BlyqhUOCi78FJCqmiwm9IcWxUKJxr8vNHUTccmFyyUeqUBCvb3eew5o+nTYIJUB+EKEoef4exB09sNoon31CfcBFX1EnwligT3jTIF+57zniR6pRYzsTel6qOA9CZryBdUdGgcU4RpfZ0UXfqd1SdhKDSny5qT97L5CFoOxwMmP0YINyTQ5ORHwkIKlZA7tvdLf35w+Bw1TTs7Z/uHp3sGf2jX3qH3YUfh80IYkoPQpyQVRmIajCfsogUSELaYiNmO3mgyzC/KczJNwTxauidxlI+r6krJXMZVyULwOZRGj/IYInXanJ2XeiLInVC35N4LMweJQzIhOiIeRGH1gnJfflEB9iZsQveI2mjzxjnkI4Yli8eQB+Eaw1AAZfJ8Ppb8DjqxghCNnbmXfoERlNUuuo3agr01NkF3NVMvvAsgkgHwYXMtBeJoiQB3IE/mTAbqIDxBo+DXWMw4sslTShl0WJGLXC8iWZFc0XMvDQdkFQ01zmDljTwvcktYj+kDkDRhOAq1dOMTG45kPiyR1FRGJ6o8Yl6J3Q1wACMo56KwMyLZ6i1bX3rB7ydmcC7H7nOCD3KqztrMkawOPNWaF62Bt73uhMsvJFhTZl1HviwdLx1d1UtzAWsaxhBrvBtFJHNQRyhSlwzNZRCROgFtlxyjBoNi19ogRlNs7UObB25fxciAvLLCi8Q12mXuiTDYwBtuNDscafQVxA79D2W1wJ7DFrJrdAZMc3xLDe2IR4En0zr1ZmJ50ds5PvnvIVreM5YIDW/rK1YyJubhezP2AnZTBiFaI4wy6Ns4OUwNvBWEDbwvsRgZTGtbuub5cEWTNHExPAR1OgzBFpqeKE90ygK5ip3gdcjZsaRM45d7sfBi+3uC9wZ+GZRWN45EeSMd1ot5THR/P0dHBZfpB5LyE76qxF/kfipt4kIT0GESgmEwLU4dLPVht9Kf4ArQUk4MWgDw/mQwF+Cn7ABhhb4FPRDDRI5M+bHUXdrUyFBD02HM2Psh4aM0TT5AhcPqBY40UI9Am8KazyNZq4emCF4FyrbqxxB9JMJgw7sgWsRvyCtIOBAspcisFhrS5jLGaGa50t6dZqHq3h0oyOC2SMbC66b4eTirD3EgV3macmjOtkmbTVSCUDyeyKZ0OtVLg38nhExl03AIj2GMvbV2GncKTWgmfDUhOdgctrXZEIrMWW/d9B7f7LzcS2orHJSD6XE+al8Y5dWVNVCaCl0M5FmoqCfAvADrPguH2juBIHrWGK7v0F"
-)).decode("utf-8")
-# truncated placeholder - will fix
-raise SystemExit('incomplete')
+"""Template builders A (core)."""
+from __future__ import annotations
+from opencomb.templates_base import FileSpec, _pkg, _pyproject, _gitignore
+
+def tpl_minimal(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    return [
+        FileSpec("pyproject.toml", _pyproject(name, "Minimal package")),
+        FileSpec(".gitignore", _gitignore()),
+        FileSpec("README.md", f"# {name}\n\nMinimal package.\n"),
+        FileSpec(f"src/{p}/__init__.py", '__version__ = "0.1.0"\n'),
+        FileSpec(f"src/{p}/__main__.py", f'print("Hello from {name}")\n'),
+        FileSpec("tests/test_smoke.py", "def test_ok():\n    assert True\n"),
+    ]
+
+def tpl_cli(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    return [
+        FileSpec("pyproject.toml", _pyproject(name, "CLI app", ["typer>=0.12", "rich>=13"], {name: f"{p}.cli:app"})),
+        FileSpec(".gitignore", _gitignore()),
+        FileSpec("README.md", f"# {name}\n"),
+        FileSpec(f"src/{p}/__init__.py", '__version__ = "0.1.0"\n'),
+        FileSpec(f"src/{p}/cli.py", f'import typer\napp = typer.Typer()\n@app.command()\ndef hello(name: str = "world"):\n    print(f"Hello {{name}}")\nif __name__ == "__main__":\n    app()\n'),
+    ]
+
+def tpl_fastapi(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    return [
+        FileSpec("pyproject.toml", _pyproject(name, "FastAPI service", ["fastapi>=0.110", "uvicorn[standard]>=0.27"])),
+        FileSpec(".gitignore", _gitignore()),
+        FileSpec("README.md", f"# {name}\n"),
+        FileSpec(f"src/{p}/__init__.py", '__version__ = "0.1.0"\n'),
+        FileSpec(f"src/{p}/main.py", f'from fastapi import FastAPI\napp = FastAPI(title="{name}")\n@app.get("/")\ndef root():\n    return {{"app": "{name}", "status": "ok"}}\n'),
+    ]
+
+def tpl_flask(name: str):
+    return tpl_minimal(name)
+def tpl_discord(name: str):
+    return tpl_minimal(name)
+def tpl_bot_telegram(name: str):
+    return tpl_minimal(name)
+def tpl_datascience(name: str):
+    return tpl_minimal(name)
+def tpl_scraper(name: str):
+    return tpl_minimal(name)
+def tpl_ml_api(name: str):
+    return tpl_fastapi(name)
+def tpl_worker(name: str):
+    return tpl_minimal(name)
+def tpl_library(name: str):
+    return tpl_minimal(name)
+def tpl_monorepo(name: str):
+    return tpl_minimal(name)
+def tpl_docker_api(name: str):
+    return tpl_fastapi(name)
+def tpl_pytest_only(name: str):
+    return tpl_minimal(name)
+def tpl_github_actions(name: str):
+    return tpl_minimal(name)
+def tpl_static_site(name: str):
+    return [FileSpec("index.html", f"<!doctype html><title>{name}</title><h1>{name}</h1>\n"), FileSpec("README.md", f"# {name}\n")]
+def tpl_prt_script(name: str):
+    return [FileSpec(f"{_pkg(name)}.prt", f'print("hello {name}")\n'), FileSpec("README.md", f"# {name}\n")]
+def tpl_cron_job(name: str):
+    return tpl_minimal(name)
+def tpl_mcp_server(name: str):
+    return tpl_fastapi(name)
+def tpl_streamlit(name: str):
+    return tpl_minimal(name)
+def tpl_gradio(name: str):
+    return tpl_minimal(name)
+def tpl_click_cli(name: str):
+    return tpl_cli(name)
+def tpl_websocket(name: str):
+    return tpl_fastapi(name)
+def tpl_notebook(name: str):
+    return tpl_minimal(name)
+def tpl_fastapi_jwt(name: str):
+    return tpl_fastapi(name)
+def tpl_django_lite(name: str):
+    return tpl_minimal(name)
+def tpl_sqlalchemy(name: str):
+    return tpl_minimal(name)
+def tpl_celery(name: str):
+    return tpl_minimal(name)
