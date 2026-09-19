@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "opencomb"
-version = "0.11.0"
-description = "OpenComb – Dev toolkit + PRT + git clone + site downloader"
+version = "0.13.0"
+description = "OpenComb – Dev toolkit, PRT language, 56+ templates, PyRunner (browser Python)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "DarkFox Co.", email = "darkfox-to@proton.me" }]
-keywords = ["cli", "devtools", "prt", "clone", "opencomb"]
+keywords = ["cli", "devtools", "prt", "templates", "pyrunner", "opencomb"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
