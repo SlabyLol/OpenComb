@@ -1,4 +1,306 @@
-"""Project building helpers (compressed full source)."""
-import zlib, base64
-_CODE = zlib.decompress(base64.b64decode("eNrtXVtz4siW/c5XsOtmdT0Vg7vTPfbD9HTcjG8Y8AWbmZ4nKYVkgLFERhbY7v71J1U2yBYgG9zTHmeqIuVIJZVK5b321kpVqWkax3wae07K2ST3Ao8nKbvH/ve//4dN88BnN1Fy6UUzllrOdBoFXmoZhvHDNInmzLanWZYn3LbZfR4lCXOcMMzMZB6G6WeijBXz0I3mEyubjaT2xEm5qvDOj/hZzO0ms5PLGf7O4iT6g7sZ/J74mT8Lo4R/9tlnHp8yO+GON+dm6Mx5n2VZ0mTTyFvQzwZr7RbQ+p8x+Fs4IBcWi6ZxenL08uXYmnvGlhl/Yk/pJByG+NthR4ygCoAWwPNjs9FoqIb90M9MagKyqtD/YNvnMGXQYxiFATO1rQ2rYwzD76oq9DhLLXUanXITuiTx5tdZ4tAzVjIIdOCn2YXCdiRaQXSghEkX+DcQKMJUzZoNHjpQ5uMvObi0tfqCk6Ycnsw5zFKWmE9pl02MSheGBmagE0OjA+NjaJqe+Jc476YTLmwnyRwNCrIhVeJkaESXQyNSq1bil8AJIAKgDxqdRnWYL4pa5XTSyLbdKJziLxVc4LTKrscLfIf4/yB+XSTOwxB7odCiwas0cyXQHLOTJOd3gF2jWds0jQTNq2gap0pbXCIAFIQInohLGAX8ip1slsIEE8hhCK9NISamlp4qbspBStJTFgf2HEDNnKDkg1byiQEMMhYVvbNAC96zsmgeGFVulNxhvBVNMz9MM8cPnHHAWey4l86cG53s7q2Ci40qS5vV0lXGhkZ+/fVXkBEzGA4/VC2xHmeWGiDWm2NxQ0Fk3VjbMAzf9la6bRPz2jZOEpbtKm5eXWnuhGG1UsmBRLok27ZSxWlVDqrxTMHvCK/BqgWvxIkfZuZWwr4E3mMf4f9fViF2NCB9kCw2DhdKnQHxsMAYiFfbhmg/miV4rssIN1YNhhPTVQ4E9WYac55ZVxNJhLChAesE4A2NAKTW+Gpo/MCDIOqyrb30c+j/1haDym3++qIuKqElwaukZ6JBxZVy9C3ETE0BlRDZEvbIRqE5P5QYDoxrEmtVqhmVjOUGfmemgoZ1KX3/+lgThTI7W8Q8qWUQnMT3YNDXMI2CorrHwrWlcEaMKYue48tywTWo13B87CxByzrHv+eMB/FgC1awMLKdZJra9lObUlBi1mhLEBgPFHJm8wH5RiBbLnD3GERInfiJTGx37ErU+iCfo6BA5mTGQTS/c4KU44rV68lyYgHr/R2mmSbwXRRyzQI5YQruUh7NZ0DYEpw5GRoX7sIJR1vpxfaI3VTG61aQ0zKExPFByxHIHl+jvNH2PZrPndDTdH2GpFsSY7PjBb+JzmM5+Ryu7vlyz8ag1BF7hCPJpDcI7vZz6OuyDnAH2n44icwVzWfQEaJHM/OzgAMlLQ9fpjmeZ7tRkM+xoz/yBaDxsJn8dyfIuW70RbkkuoJCFYKoC9QVdeRyhnV02NUHMGuOz7qCWShJcVyOYVUe1//Gj7FyE/uywzevIffCIGLaH4Ci94dKCQqN/cHuM2MkZ7+P2pkFYq0POJK0vP0jlneQSUT49IS0VKzxZjkgmUdf7qGfZXl4aV+VlteuMiQMdiDddN0B59aeapSNeeE6Y+a6d8iyD7Vchq7+FzdOZTOsy9XRIcI58N2uQoxvAYlgUM6u1NUr7PPI4rIIKqWXoJg8/gvYPjDs0LHhGJiFlHd7FxOs4EkjIrkqyrWSpiMfH+bSQ8biWLBWZRWlWqhs7Fv0bGkvlsJj6QDwoar7e2dlpjEgxoGX/6jyImH6mVKYHrepUXNJHseGF14P3r7vsh/Pz98fXLid5vlxNEcB13t/i9HSBfDlI/nXX8+VilpxgWVoNiHbpl+hKaa2KWmpGu2oZHbTrq5IGj91Z9Do0i37oyI+nKUheNcnUTxM2O3bAw2k2G+x2YU6u1dsezG17Uyd5tnZbS5miBSIi3fI3JU1yu0nqKBGSKBKGAg/YZbnZcp8JgHCjqRnSyrLVr84l5gAtZXmKGXKnersCvxl3g2ymw1LkrIenKLuoY4qXG4yBNbFFDgOPIiHhaQzMwG0SKAM5H8t4YHlTmHAEeRBGsngrUmp65RQOyGQjX7py7gbwY1YzOp0VI+VnfJ5u3+CP7Xu3uiGDkjbmG7IQEceKAQQ9QJZkr9huf4WOWBMEZphgkMEeHzzf2emCZMwcP0D5KsHN8zRjY872B2xXJ23LqfM9nDVZD6lHqIl9NhHQepUe3zbVEKl04OqnEYJSqlmYDQsmB2mrdhuQckgpWtlDQlXJTWCBOvcSoEEFhglFq9YQgtlabU8CXIVbrQ8p2ssuSjYaCR0NOamtEcUrazZTMF3ZWMFBI+ancm3Tt0X8oGkJpaFspklq2MoA5lqSuZAMMx8mtNOGcGJViAwHACQprGEeZBQ4Cy6SA7RXpY34EXRRuaqA8Es++i4njVRRFOmkuzeolOaQFyXhBaSHnpN4I8zb+ytmqdWxp8Tn/mDPokqzLIuvZcHR5iprJTSoORa/duZxgOWNg/fv7XcHb48HaIA6Ov72p+8HGU3pDydn5wOllYTvT07PB0L9MKRSsZFGLAdBsQ6q46zXS3gQOd4TGsCEilBRiul9VQ3EriyPb3fZTlF+kOUU357Uclro6qAeXm6mqQt1aEkMIsBCtcMXwZH+ZIGr4G85GaE3t7wQSFNtKDsbKSOt66hEFEUsWXQ0qlyXCVExEDKy8yBt405EpKBUpqS79IwWfULTDpr6YTTlhCDGNkm6FKY9zER7LErYze2ynpjiTgiIxUQgsrOFsMVFFe0td/VMqSoAraahwHvnoRYEK8lDEzdHg8quqEvboMGLHqFCwOaqbqCrGX8fQ6ITI/zt7OQdA8EuBDom7Q+egVwePb7tQHBer4d8skXaM4NxgATq7BNKRqJDVRy1kzVsBYUA8vwUpLm3mQgaRw1NTAqRCMSffJTwYXhQzsh3WL0K7Uxa7pqbvfOTH4/fAfAoxeXOT6JQUvrR67PDk9MjmwoU9F6nVxDHYYaiWLX3WqRY0GsnDzJTW14p5mhuyKTa19z2ix4rnK1vQZzJFztO+MS/BpL/HLGSMAfyd0l4ACCL/2zqpE66CF2GcwOyDulsYRcehaX0TTSdch8PE5yU3SDIHBSYW41YxDy9jbRsMga1xXSza51ieeX4MFXZtZVygABNv4/C6efsJolyeEfoeJIeuosvdnETfDtPN0SCBCY01GVf4DJ8LQwsd6OERXVqueaUS+2GQphLoqJVe6GzRQo7ErKXD40znrEG/S0LWuQlCkAq8CBRWj8hewyheCT4AXEkiYj4I16gutk0tkKpPuLwUGtru+paG8xB/fStTc7ya5Ib9aqWZQnHCSllG9rt4whanNmiPLzcS9BCeSgT8GnizB9f2jYVOtWSkrI/xaAs8PZyVYl8EMeB75L1sMsOBb/+AP8FHFSyt0JGFu+HKCuvM7Tlp1028YMMlLV1Zfn58Zvj708P3i4J8xbhAKpfkpk59aUv+0Q7ASEoqrBYR8ffHfz05tw+/+X9sZ7/BRyLTybAIf5HbisLnFYcCHnTVsdKeBwsnGwe+vWD/znbRnGKKhyKJ5Jk1qqukfD99HsWg9hf1Q0S30/dDTINtOJLTTmwoyuB/yHLTJM1tGcYwFMVZrWks5zZgQXgkqsVSCybWgB0yDgTvGzWWd0km1SSIVfSQ2cDCEjVpPrD7xr168LFlNLEOj/+xzn7M/sP9X548vbtwbujLlFbC1hYge04CgJkKycIoivu2WJW04GgS+vgzRsivrNPbJE+V7JbrdLCktBTsroH6bBco1ffH71e16nyfgt2o+6nv2Lj9jp1fdBq+YYWmtAJFr9z3WGqk80Cf6xW3PfwWuyYwnweL1ChD+MiLUZ7Y4qJsaeRPmh6s1OaJXGEEnvWEWD/XYJoL5sCQrQghMAkADaaq12RDenm871W00EVqHmjFWbkzdTHBiyAKvQIhM3+LvwP9gTdlhqLRo0XXba3ukbgjHmgapEI8GGCLoaGIxSI8RDZQl//Vie70xykVuL/zk1v0q/1cp2xFGPjTWAUUzfxz9z0QzfIPTyQBsGj91kVQqPdKcWbwATVZnWpSJSjNoiUA3IWXuI8I6cUeLTml56fmPwY2NSOLjWOUKINEEG2m340EdQ2HuVRWxYkiR2sx68H5M/UadmCVkeu01ZoaPycRBmZpnQNfWo7JDTMSa4XwpdYr7DmE3fuD3atva/wde6ApIgy4GW0K339FHaloQOpJUXKU1qTRAsVi5JIWNcvEql2yS1SSUIpziqUXfOPRANkjeo7SAK76shCJ6SB5xz0AtxIQIvK2k2Vk0xjJ0FXvnhRWrPoLEfasbZ88IVgjt55k/y4CzKYw27T3jmzsw8CaSvfebPOfBCn02gt8jGezvWjkZ7vPKzmWjTkoePkwh1GSAVYHCg2pR4uwA4kL8dXCnE8VyL0lke3+FODDBr8Rm0SD21J1FiC7u7RhKl0GmAVxsAMyFVGeXxLJsHFo1lonWOQz8OnAIEa9ET3XYA0S4vPaASXWaS8r9UlnEQUxpTYEUgUHGydYum0OYud1VMKLnQmpCVrSIbqOLjAEU2UZmvG17RU+iQoiDrIJnmcxjq95RjgsCZar0MRU1SiB1ZBXCDudFq/wk5DMk69EPer4SiZpSThZ4S5KigW5GgUgRiaQmCk0sAKzwDkMhatpSFhZInSZT02Q2/xSEmPy3gJ5g02KckLTQnpmuz3exJOANQ+tX6u5ZFYYjtdwbDA+XD2xXksfOQdWhpEycWJr0X18MWqJ/5WMqthNan6vEyZI8VFyKNP98fPEd/yvo2QdR+lJ1C25qFXpOAV9rf/pa7BzT8Pq2uL7pVVhHv99L454G9seMkORZpl5KaQq9xDjuPFuQTplED0TCEsh6mP+XBBDiIO+jpB9RMaNH6MVrh9CNERyLUfSeFR2dhKiBd5qHX7YCg6JkRuADqWKX/O/ll7OhbKFmAfKCPkWlBdKl2hIMQ2kHGnPF5nC3afNRTuj8xEOuiiS3PuVNlJJ2kuAGF0iVHz74A0K3uEdBmlfpoxtFrFxPZxD70Ra0ZIZ86Ip88kmyFNrkqhQINHIBO09NMTYmawKYm2uKu+Qn6X4qeyML0sobvZcsJvd4D8r0g4zv8LbXkrXW8fKKD/3u6F0rm1DWl+FY4Exbd1zTdujZLnGg+rCo8S41T6yJd8uGKVfo+3n7obwCKkdDo+ZJr3uOd2799U57X38cBq7ExU9wCG7en2JT9k5ygJCkUPk3ERo/qAlW00G2RDkrYIVsUmz5FnGrfJ/dzpWAsyPdi1wKi2sM/z6ydEbk+CuEtHPusxl7viS+u4l3yTXePoq52yU+BlJxA7MuU64OTOSSKeSGViyTUjEmC1yVNka+Rpz9T45oDBxiL5KMTlHvLFzSk9VJ2kochbJuK+w3UvikNgQN5iQ3psTAAaZUTYbiXusmHaFxzQ9abtmrq+YUYwxHWZTcCgMZ9QTWHx+rY1h3gsYiluth2eUPBTLMoNnG+8jlMA1n92pWcJmQaHD0ORAGW+DHl29nr71+/O+9Sm517VTs/Pn27qh7qGTvamKsZEHId8fb+hezLgWbnVeu+nPOw01oMqd5KA85jmi1L0eR9Ds4EfYPgwDn/xGyE3zru5ZQ8X6QMwNWqvscS6U+8x3ra/ZToQllFvN9rPxX448RJFv+MsADvhdVUYmA8nVnWBfJraNuO572UMg4ezd3uHmxgjE3VgspFBWgxrrYCS3oOC3E94EcRLAMznCCgRDwe8eTlXKxjLEXZGK1adyVy8cLCDYO3MDNW6x6EbuOePg6IIxenLhvLJ6ILeqrf0nfYl2ysNA3A+15Vv8Cqd8bLqKDZZZqZlGNcUXawCw1FB5P2QKMhe/WLWmnEulEak6D0cyr99R+q78wjJPA4enSW1EayeS8uLsN2TmzLQZmn26yW9grCpofU8nq0CAuxfZdsAIoyeq4AbRzi7zpQBU3b9Kxh0VYOFIQAzj1tcSiES00bpRZowNit1zcoKG6FaDdRo87dzcjO4mN9A7HKfjEM9TYCWrtbduuNLfmqsDfqwnXRxbtmLVhzuKAgUYLmGvpojTYUYcBj7c52I4DGctiKclwqLrFlnAU1HioSCxVfrfdU7+/jcBkESezYMYBL9aZ6zc8hcmFhX9PyiSZ8kjqNi+adNplBFdAbHr10y0E8okYx06iGsjG+Oz15y4Qs6z+DSeilgT8fhj+fnP549PqUbTdv6B2evP+F1SeaFbKIWdvDkErANMGLCItl5dOf3rHaBadeGPVcx53xnucneNnp+B/vT86O5a3tarNvj3BNlWYAsZxWbAEqCgZeglABrIp7EJiBtCGeCXQZhooutHVWDp2YL5BhQGEptxZE2oa8uZYSIcCsSIIg568+dkXdRE9lDmM92Xxf4CCS1X36PrtA7x9ErFOT/oRVhXzEomRHYfBPUfTwZiaTWcpbCpL2B18/zTUPAZ71fhP63OPfc3MCt6kzhekVSozyzLEybM/31lByFNCKNolJZbgAbKCu5Mg2G3qOwgSkDzX8NJoLqFNRTBc4cJh1egzM2Swf245LMQ7WoDvgmroVRoQ5fF1ja4q+A0SapzPFP4kTgjwAFeYCmXskskGrlle36vvND9FYsFcmsmie8jDtYbigfJyHWd6jkIPZ8il6lkDGdFFwJymiW9dvDIpFXtF+CGQPyAhpUiBp93iaa8Z1040wONUt/XvsTzFDsrB3IbuupdRnn3z8fkapVMgw7gncPvm4Qu9DQJmqdKS5a/8yc2N7K9Vz2K3t1ocYFD7ddH9E73++c+seWO1maYC8bVCLBl8TZOAJaqRdMywE7mCIfSmW4a+WPbTq8uFrpkAwaQTmfdQVbnmK4MhQVw79bB1HRrRb6LOMq89h6UEdhvL2h+ErKhM44XQwDAssgxQGcnO/Mbwv5jxzGJ3Dc7wVmCeTXtfgC64j0YhMhAhyPvr8SiyOTF7DgsQr38tmA4/jAtejF2Gc9J2gl4Ig44NdAazeKKmgu1vpq+2xRM0FvnhJUwnxi9IsAUvZDKM0GWwW8EmRZrppKiA+2pb9eYUHL8v9Apm0Lyj71WyX2oLfmRCvH9GIMxwxoYedwFp+iMFHX21H+0s0+GqcZxlQvS8B5iMMxzQw8B1LNucvtoVeQVsUShCr799AQxStyU+dSTRLzHMULQOKMqH9SGlSiKZOi07B9iLma0c71TCXIkIQWlSJ4s+3uplN2wC89WbOHM/wACo5AvRy2HDl8Kq0YPlw5+8hDkN0B/kT/xr/veTjwpTGiTu7uG/l6zO8nSKqi+NiWkx9nz3fSfj8JaQkU1C32DN4Y06eRS9ZDCsHmbV32C6VqYOSw3tTKWe9wNqisJsnKWIXR2SxrNQWPf/Q6DgG3soYzBPeNIxcs9jBXc5xwPHx28Vrz5Tz2Hm5FIguky6c7TUj4dJZqxnwTBh768nQCDoOHeONwjfAzDwk/3sXqQeXBVyy91nTaVeYe182UtGDFP1mDotpkEODyJB7jCJBhiIsJJp5zbQzNOoAbkuM75Sc5GNqIc0Bjvij14wKnoRS8FdbSNA1xZ1ZX+JqnCzRb8VCZRoVIshfkr9ViRonmS246NFVX1DRALpSA2kbqOJHKrdKVNmRHq4B8C7MCShkotz1HYvG6rFQAZJBq8aIvYhGZSBMFQFOMxxtEoQ26ECbDQaeAS17S+BVDAS0yqEZvYvDtd+jUBe7hA4N2g+JyvOnGwXOCqMrU0G08sztWH4aTdAlHRT22xEaBRHBkx838+h+7GOMx3MoO4RJw64tH2JA4lOcYGCDPfbrF9sv2Bfy31b66x0k+5AtFfSjLA8v9/MJc2NbiIMN/cLu4wQkz4pbXX3W8srRO+Ccg0S/w/umuG69wrcmi6Ig1fm7UMZqzxpbH3UuKloQ6IJxzBMX0BKvoAF7LigEsPSNVvjeELTWwBuYa1eieYnur0Qv4WkeZIgf+djgaKyBQAX9FiyoxIPQsASIzhroVIavBZ0rd31cEBjNWhG8jNBJ40DwHMwXKfVLRTq3SzokWlsFlRiPYvdBSBu4Cv0fcgZa5dxzt2ADPufOHCfycMIPaa+qKX8Y1Raml80QhilQFM/sWMbemPhTk55LN8PAWeD1BtoJLjEaVKeSZtOpHjKuEtzsDo2zAgG6y8qTxnYMA7OkEDtWGvgeKdKnsKtH+fSCbpZ12d5Og7vwwlbjgpy8Cwe7Y/SW6KqrZhc+LHg+7JYS+Atrgyowul3CHvaqnLzXM9Ob0BiRwiwDhi8VR38h8mDB61gr93APY71yMDEUL7JfMb/ogPeMAvhW7009Ac+VFIVBdmmRcD7VUDvTxPH86HG5TcBErpomGq1UxJivtyiOIPUif1KExZcRt4XPNIlv6S1N+Z9roxO2+fJMEwrAk0wcl5uTcEBYoQUnzjMM5IULhrwe2EgpVBorcPLQnX2iKvT3chYkN4hJwbsXzRvaUOJ/tU/Qg+ifjBGP+EUDFcCKXBwNxYgSLbQsxY0bazJLnddHwu1ZnukSKS1dzsIOINoa0sYbZ3jyV4aEEikafFpCH0l8IhVFvxk6Hz2whVdm+UWLu2LzaxAVrZBCrGHyzr3xrdxQo3vXbRdJlouPVxVf4SK0sk/kKPQg4UAT/ISLpjDkKjcDQh3PKHc1Ae7RJeEJL2aRCakXsgPPeVppsUkQ+9Izm49TPOjO/oBtd5f9zMdn1FrlkYJlhSFfCmG/3rb7gbEwcfclw2pv44N271cOkizVFlbtKhWb4aJCv+xna3C1orDluHg/xLzHvVLhdozeO+3exjIIZrOxhLscY+7Q5dx2L+NmNYyzJOpMhHmhz9C650gvfcp7Mpq5XnUV52mucwoMNrv1UnQfNO3dvf/f3CrpEUYZH0fRhqF1w4YhunFuMjRckKHSklWnlhuRZ+P6Jph37iSXXnQlfYTwqBOJEvNubil+fpQnLpdWsT+xdxLxIbC7Mbrt3gkfb2q1wZYKNQEfYQK/5m6OioYtbyR9FuZBsBQopYGWxiKrPjSNPIPQw9iqxeyFnXHthqDoXL3VUbc5yrUODY1LnoSwCYGZkwmen8aBs7BVEPmh8vp+JgYED6bzIgS5OOJRlzyLGiIVKtzeLrUfjoX9H0s+71YS8Ht3UYHJdX+H27UPvtB7xE/osC+1smv0XDI+5Oh6kOAWegcGstw/D8PK5bY2b5/7+cwq/pCM5seLEA8AwvEmZ2dVh4uENbs2DGXHmGqU6VrXH7ZtJFCqgkBKU/vD1aZ2rpz8kvRhF9c4ofJ4kDnVw6rm9dsPUfnx0b/9fE6XNrsM8FWHAY6aBv7YklH0is+tJYs4kwH1GqrB2fHh6fG5/ePxL7qgi2Wu4AWPf+yl3AVi7bkztEX15ksmt0M335+cvj7/4S0dBv9wtvfiq8Z3buIrz1YYDmrImak7A2pIByBIxi5mUIAmj8ew0MNQoRsDnt432/zp7Pj0DGAho/N5hNxWacSaAe2ZKmvJMo7T/xFdDhY2jh/asU2QFeguQBFYsDb3SmLAa/Cuqli1WQFUwFJgdOeBSDYcz3CghyZG5a18IlZhdFfzAjoMAQ2FiNQiIbWGsUBIpqyIkVKWBkE+FLjrkAdiALRtEUUwzcd3GI/4NfJN+0kq7M0KTsBL3DkG4ftqpz1G+VVm4RG0R1ZUaJ9u9udjsYLRR2rgB1a4kpS7zAmmUeJns/mgIFZd1zyOcGXX6G/bjrlVtY2dBSo/0GVEVAAUoFowAtIvcBq13PvLxxTNhSBLRqWOr4x8gJeyoZSIkAMQyET3rilmKvmuki8r75tXAdxnM3XE0VE57a4d0UB9sgWkTw4DtVCAsNoB8A+M3u8U2fIwAeIJ0d0rFUC/5U6i+y7lioNTTdQDEu3KBbbCr90aA3RrNLPuVrD2fS/ZvUEFdxNFnk3hcfRXbMWp7Zto6od3HNvWpIsmqVBG2Kw6PwYwKd1GlTLkmaHEpz3SaU3u0XGgQk9+yVrh09k0JsFu5QtEr8OPTuB7OF+KQFZ/gAg3smkqpWLkSE3S1dClAxtKryjbY0F3hm65gUlOAAcbAZiIUNpfScns34nTgCok45iKUDrtoleOsgD/CAP4rjFlnm74chHQqiY6CQOrMu6dNlyx9mPOtZy71lnG9laYYubag/q5WKTVh97UjFTntLPSVqPIBulEBOF/qu9ayC8VgSjf5CtF5FyNKucGqWLRNHHi2WKE0QufiWM70jYvhKY2wj3HE322qFwqB6XeuSqg7BGoeoKaGGp9bJt+2vZDDzrMAarqHHPAaxOaKrwP0PnADpbbzr6fE6Fumyna2x+IuBCPZS96gy7ORwSaoQ93up0nIONS15lMooDc2B99mqid5u1E0T0L3TiLXVUaaf+A4DqksssAtzlHY7G3cNqcbP8LiL6IWg+d9hZb8+Ko9GCKg1UYU3BSMBKQaEOqizEeBhCYSgDu+kQnZEvYhH/FXdymN9VbvRU2OhoLnWv4RjyW+AEuGfb8D6Xp3PjLIGq/pxR4MZC1+IhaBYYbpMHZHE3WgFYUTIvdU7QkxIK34UqUpe9xetyHn6HNk3pAwZzSpBfadeqWFjRbADSfXWFArFo6r/GjzC2VLJt+vC5OoRi4jOHqeYjsRg5RSB/4YcU9KqGuRkn/txJFvYlX7QE9BWJTJwJwnA3DEENu7u7tdDbxYRVThKFDq1OGO5XfUHr1t7e3LToi9uiMD23wLajiaFnKvGdJcE4QmAJkRx8JVc6pKkS+RCKpLQ4MZaJjvEmTJJlj4id4LbMlqpyqhcefftsBBHrvJHRNpyiPF1GcBLU4JGBqsNOxsFMrAsoIcylAsvB7mPgrd/efUryTs397cyB5Fx5hpoXPT8GQT+bkUwt97I2f8LjBq3gIe/dzEHZhvjeNcZI56WW62roowBdWP3prkMc4iUQgqiVb3+Hxm+PTX+xvT09+PD61fzp9E0x+GIsLY3MGEdAsfcX6q2d//dftnaXzQ9rdihbNXP9ESwPx06XbO6Any3ftASj2UHvCf02BorpsUQaM0sbTlaR7zb5ki7UbaAZc0MOsxF541I+JigGrxAYyxCRe0LiPUPV69jQ69dJ8D1qneq1PN0ji6x0gAwpiVVHPegFM1yR6Qpak5soa9LoGY/4PodcPlw==")).decode("utf-8")
-exec(compile(_CODE, __file__, "exec"), globals())
+"""Project building helpers: wizard, stacks, components, doctor, structure."""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from rich.console import Console
+from rich.panel import Panel
+from rich.prompt import Confirm, Prompt
+from rich.table import Table
+from rich.progress import Progress, SpinnerColumn, TextColumn
+
+from opencomb.templates_catalog import apply_template
+
+console = Console()
+
+STACKS: dict[str, dict[str, Any]] = {
+    "api-full": {
+        "desc": "FastAPI + JWT + SQLModel + Docker + CI + tests",
+        "templates": ["fastapi-jwt", "fastapi-sqlmodel", "docker-api", "github-ci", "pytest-asyncio"],
+        "components": ["dockerfile", "makefile", "precommit", "devcontainer"],
+    },
+    "cli-pro": {
+        "desc": "Typer + Rich + config YAML + tests + pre-commit",
+        "templates": ["typer-table", "yaml-config", "pytest-only"],
+        "components": ["makefile", "precommit", "gitignore"],
+    },
+    "ml-api": {
+        "desc": "ML model serving API (FastAPI + toy model + Docker)",
+        "templates": ["ml-api", "docker-api", "github-ci"],
+        "components": ["dockerfile", "makefile"],
+    },
+    "web-full": {
+        "desc": "Streamlit / Gradio dashboard + FastAPI backend",
+        "templates": ["streamlit", "fastapi", "docker-api"],
+        "components": ["dockerfile", "compose"],
+    },
+    "discord-bot": {
+        "desc": "Discord bot + worker + Dockerfile",
+        "templates": ["discord", "worker"],
+        "components": ["dockerfile", "makefile"],
+    },
+    "library": {
+        "desc": "Publishable Python library (src layout + tests + CI + docs)",
+        "templates": ["library", "pytest-only", "mkdocs", "github-ci", "gh-release"],
+        "components": ["precommit", "makefile"],
+    },
+    "data-science": {
+        "desc": "Data science notebook + Polars/Pandas + Streamlit",
+        "templates": ["datascience", "polars", "streamlit", "notebook"],
+        "components": ["makefile"],
+    },
+    "monorepo": {
+        "desc": "Monorepo with packages + shared tools",
+        "templates": ["monorepo", "cli", "fastapi"],
+        "components": ["makefile", "precommit"],
+    },
+    "minimal": {
+        "desc": "Bare minimal package",
+        "templates": ["minimal"],
+        "components": ["gitignore"],
+    },
+    "pyrunner": {
+        "desc": "Browser Python runner (Pyodide) – packages via packages.json only",
+        "templates": ["pyrunner"],
+        "components": [],
+    },
+}
+
+COMPONENTS: dict[str, dict[str, Any]] = {
+    "dockerfile": {
+        "desc": "Multi-stage Dockerfile for Python apps",
+        "files": {
+            "Dockerfile": "# Multi-stage Python Dockerfile (OpenComb)\nFROM python:3.12-slim AS builder\nWORKDIR /app\nCOPY pyproject.toml README.md ./\nCOPY src/ ./src/\nRUN pip install --no-cache-dir build && python -m build --wheel\n\nFROM python:3.12-slim\nWORKDIR /app\nCOPY --from=builder /app/dist/*.whl /tmp/\nRUN pip install --no-cache-dir /tmp/*.whl && rm /tmp/*.whl\nEXPOSE 8000\nCMD [\"python\", \"-m\", \"uvicorn\", \"app.main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]\n",
+        },
+    },
+    "makefile": {
+        "desc": "Developer Makefile (install, test, lint, run)",
+        "files": {
+            "Makefile": ".PHONY: install test lint format run clean\ninstall:\n\tpip install -e \".[dev]\"\ntest:\n\tpytest -q\nlint:\n\truff check src tests\nformat:\n\truff format src tests\nrun:\n\tpython -m app\nclean:\n\trm -rf dist build *.egg-info .pytest_cache .ruff_cache\n\tfind . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true\n",
+        },
+    },
+    "precommit": {
+        "desc": "pre-commit config (ruff + basic hooks)",
+        "files": {
+            ".pre-commit-config.yaml": "repos:\n  - repo: https://github.com/astral-sh/ruff-pre-commit\n    rev: v0.6.9\n    hooks:\n      - id: ruff\n        args: [--fix]\n      - id: ruff-format\n  - repo: https://github.com/pre-commit/pre-commit-hooks\n    rev: v4.6.0\n    hooks:\n      - id: trailing-whitespace\n      - id: end-of-file-fixer\n      - id: check-yaml\n      - id: check-added-large-files\n",
+        },
+    },
+    "devcontainer": {
+        "desc": "VS Code / Codespaces devcontainer",
+        "files": {
+            ".devcontainer/devcontainer.json": "{\n  \"name\": \"OpenComb Project\",\n  \"image\": \"mcr.microsoft.com/devcontainers/python:3.12\",\n  \"postCreateCommand\": \"pip install -e \\\".[dev]\\\"\",\n  \"customizations\": {\n    \"vscode\": {\n      \"extensions\": [\"ms-python.python\", \"charliermarsh.ruff\"]\n    }\n  }\n}\n",
+        },
+    },
+    "gitignore": {
+        "desc": "Python .gitignore",
+        "files": {
+            ".gitignore": "__pycache__/\n*.py[cod]\n*$py.class\n*.so\n.Python\nbuild/\ndist/\n*.egg-info/\n.eggs/\n.venv/\nvenv/\n.env\n.env.*\n!.env.example\n.pytest_cache/\n.ruff_cache/\n.mypy_cache/\n.coverage\nhtmlcov/\n.DS_Store\n*.log\n",
+        },
+    },
+    "compose": {
+        "desc": "docker-compose.yml with app + redis",
+        "files": {
+            "docker-compose.yml": "services:\n  app:\n    build: .\n    ports:\n      - \"8000:8000\"\n    environment:\n      - REDIS_URL=redis://redis:6379/0\n    depends_on:\n      - redis\n  redis:\n    image: redis:7-alpine\n    ports:\n      - \"6379:6379\"\n",
+        },
+    },
+    "pytest": {
+        "desc": "pytest.ini + conftest skeleton",
+        "files": {
+            "pytest.ini": "[pytest]\ntestpaths = tests\nasyncio_mode = auto\naddopts = -q --tb=short\n",
+            "tests/conftest.py": "import pytest\n\n@pytest.fixture\ndef any_data():\n    return {\"ok\": True}\n",
+        },
+    },
+    "github-ci": {
+        "desc": "GitHub Actions CI workflow",
+        "files": {
+            ".github/workflows/ci.yml": "name: CI\non:\n  push:\n    branches: [main, master]\n  pull_request:\njobs:\n  test:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        python-version: [\"3.10\", \"3.11\", \"3.12\", \"3.13\"]\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with:\n          python-version: ${{ matrix.python-version }}\n      - run: pip install -e \".[dev]\"\n      - run: ruff check src tests || true\n      - run: pytest -q\n",
+        },
+    },
+    "readme": {
+        "desc": "Basic README.md",
+        "files": {
+            "README.md": "# Project\n\nGenerated with OpenComb.\n\n```bash\npip install -e .\n```\n",
+        },
+    },
+}
+
+
+def list_stacks() -> list[tuple[str, str]]:
+    return [(k, v["desc"]) for k, v in STACKS.items()]
+
+
+def list_components() -> list[tuple[str, str]]:
+    return [(k, v["desc"]) for k, v in COMPONENTS.items()]
+
+
+def apply_stack(name: str, target: Path, project_name: str | None = None) -> list[Path]:
+    if name not in STACKS:
+        raise ValueError(f"Unknown stack: {name}. Available: {', '.join(STACKS)}")
+    stack = STACKS[name]
+    target = target.resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    created: list[Path] = []
+    pname = project_name or target.name
+    with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"), console=console) as progress:
+        task = progress.add_task(f"Applying stack [cyan]{name}[/]…", total=None)
+        for tpl in stack.get("templates", []):
+            progress.update(task, description=f"Template [cyan]{tpl}[/]…")
+            try:
+                files = apply_template(tpl, target, name=pname)
+                created.extend(files)
+            except Exception as e:
+                console.print(f"[yellow]⚠ template {tpl}: {e}[/]")
+        for comp in stack.get("components", []):
+            progress.update(task, description=f"Component [cyan]{comp}[/]…")
+            try:
+                files = add_component(comp, target)
+                created.extend(files)
+            except Exception as e:
+                console.print(f"[yellow]⚠ component {comp}: {e}[/]")
+    return created
+
+
+def add_component(name: str, target: Path) -> list[Path]:
+    if name not in COMPONENTS:
+        raise ValueError(f"Unknown component: {name}. Available: {', '.join(COMPONENTS)}")
+    target = target.resolve()
+    target.mkdir(parents=True, exist_ok=True)
+    created: list[Path] = []
+    for rel, content in COMPONENTS[name]["files"].items():
+        path = target / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if path.exists():
+            console.print(f"[dim]skip existing {rel}[/]")
+            continue
+        path.write_text(content, encoding="utf-8")
+        created.append(path)
+        console.print(f"[green]✓[/] {rel}")
+    return created
+
+
+def run_wizard(target: Path | None = None) -> Path:
+    console.print(Panel.fit("[bold cyan]OpenComb Project Wizard[/]", border_style="cyan"))
+    name = Prompt.ask("Project name", default="my-project")
+    target = (target or Path.cwd() / name).resolve()
+    if target.exists() and any(target.iterdir()):
+        if not Confirm.ask(f"[yellow]{target}[/] is not empty. Continue?", default=False):
+            raise SystemExit(0)
+    console.print("\n[bold]Choose a stack:[/]")
+    stacks = list_stacks()
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("#", style="dim", width=4)
+    table.add_column("Stack", style="cyan")
+    table.add_column("Description")
+    for i, (k, d) in enumerate(stacks, 1):
+        table.add_row(str(i), k, d)
+    console.print(table)
+    choice = Prompt.ask("Stack number or name", default="1")
+    if choice.isdigit() and 1 <= int(choice) <= len(stacks):
+        stack_name = stacks[int(choice) - 1][0]
+    else:
+        stack_name = choice if choice in STACKS else "minimal"
+    console.print(f"\n[bold]Creating[/] [cyan]{name}[/] with stack [green]{stack_name}[/] → {target}")
+    created = apply_stack(stack_name, target, project_name=name)
+    console.print(f"\n[green]✓ Done![/] {len(created)} files written.")
+    console.print(f"  cd {target}")
+    console.print("  pip install -e .")
+    return target
+
+
+def project_doctor(path: Path | None = None) -> dict[str, Any]:
+    root = (path or Path.cwd()).resolve()
+    score = 0
+    max_score = 100
+    findings: list[tuple[str, str, int]] = []
+    def ok(msg: str, pts: int = 5) -> None:
+        nonlocal score
+        score += pts
+        findings.append(("ok", msg, pts))
+    def warn(msg: str, pts: int = 0) -> None:
+        findings.append(("warn", msg, pts))
+    def fail(msg: str, pts: int = 0) -> None:
+        findings.append(("fail", msg, pts))
+    if (root / "pyproject.toml").exists() or (root / "setup.py").exists() or (root / "setup.cfg").exists():
+        ok("Package metadata (pyproject/setup)", 10)
+    else:
+        fail("No pyproject.toml / setup.py")
+    if (root / "README.md").exists() or (root / "README.rst").exists():
+        ok("README present", 8)
+    else:
+        warn("No README")
+    if (root / "LICENSE").exists() or (root / "LICENSE.md").exists():
+        ok("LICENSE present", 5)
+    else:
+        warn("No LICENSE")
+    if (root / ".gitignore").exists():
+        ok(".gitignore present", 5)
+    else:
+        warn("No .gitignore")
+    if (root / "src").is_dir():
+        ok("src/ layout", 8)
+    elif any((root / d).is_dir() for d in ("app", "lib", root.name.replace("-", "_"))):
+        ok("package directory found", 5)
+    else:
+        warn("No clear package layout")
+    tests_dir = root / "tests" if (root / "tests").is_dir() else root / "test"
+    if tests_dir.is_dir() and any(tests_dir.rglob("test_*.py")):
+        ok("Tests found", 12)
+    else:
+        warn("No tests detected")
+    gh = root / ".github" / "workflows"
+    if gh.is_dir() and any(gh.glob("*.yml")):
+        ok("GitHub Actions CI", 10)
+    else:
+        warn("No CI workflows")
+    if (root / "Dockerfile").exists() or (root / "docker-compose.yml").exists():
+        ok("Docker support", 6)
+    else:
+        warn("No Dockerfile / compose")
+    if (root / ".pre-commit-config.yaml").exists():
+        ok("pre-commit config", 5)
+    if (root / "Makefile").exists() or (root / "justfile").exists():
+        ok("Task runner (Makefile/just)", 4)
+    if (root / "pytest.ini").exists() or (root / "pyproject.toml").exists():
+        ok("pytest config possible", 3)
+    if (root / ".env.example").exists() or (root / ".env.sample").exists():
+        ok(".env.example present", 4)
+    score = min(score, max_score)
+    return {"path": str(root), "score": score, "max": max_score, "findings": findings, "grade": _grade(score)}
+
+
+def _grade(score: int) -> str:
+    if score >= 85: return "A"
+    if score >= 70: return "B"
+    if score >= 55: return "C"
+    if score >= 40: return "D"
+    return "F"
+
+
+def print_doctor_report(report: dict[str, Any]) -> None:
+    grade = report["grade"]
+    color = {"A": "green", "B": "cyan", "C": "yellow", "D": "orange1", "F": "red"}.get(grade, "white")
+    console.print(Panel.fit(
+        f"[bold]Project Doctor[/]  score [bold {color}]{report['score']}/{report['max']}[/]  grade [{color}]{grade}[/]\n"
+        f"[dim]{report['path']}[/]",
+        border_style=color,
+    ))
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("Status", width=8)
+    table.add_column("Finding")
+    table.add_column("Pts", justify="right")
+    for level, msg, pts in report["findings"]:
+        icon = {"ok": "[green]✓[/]", "warn": "[yellow]![/]", "fail": "[red]✗[/]"}.get(level, "?")
+        table.add_row(icon, msg, str(pts) if pts else "")
+    console.print(table)
+
+
+def suggest_structure(kind: str = "api") -> str:
+    trees = {
+        "api": "my-api/\n├── src/\n│   └── my_api/\n│       ├── __init__.py\n│       ├── main.py\n│       ├── routers/\n│       ├── models/\n│       └── settings.py\n├── tests/\n│   ├── conftest.py\n│   └── test_main.py\n├── Dockerfile\n├── docker-compose.yml\n├── pyproject.toml\n├── README.md\n└── .github/workflows/ci.yml\n",
+        "cli": "my-cli/\n├── src/\n│   └── my_cli/\n│       ├── __init__.py\n│       ├── cli.py\n│       └── __main__.py\n├── tests/\n├── pyproject.toml\n├── README.md\n└── Makefile\n",
+        "lib": "my-lib/\n├── src/\n│   └── my_lib/\n│       └── __init__.py\n├── tests/\n├── docs/\n├── pyproject.toml\n├── README.md\n├── LICENSE\n└── .github/workflows/\n",
+        "data": "my-analysis/\n├── notebooks/\n├── data/\n│   ├── raw/\n│   └── processed/\n├── src/\n├── reports/\n├── pyproject.toml\n└── README.md\n",
+    }
+    return trees.get(kind, trees["api"])
