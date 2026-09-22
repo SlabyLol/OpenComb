@@ -1,6 +1,6 @@
 # OpenComb
 
-**Developer Swiss Army Knife** – combine, build, drill, PRT language, **56+ templates**, **PyRunner**, stacks, wizard, OCC SSH, and more.
+**Developer Swiss Army Knife** – combine, build, drill, PRT language, **56+ templates**, **PyRunner**, stacks, wizard, OCC SSH, and a full **Python API**.
 
 [![PyPI](https://img.shields.io/pypi/v/opencomb.svg)](https://pypi.org/project/opencomb/)
 [![CI](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml/badge.svg)](https://github.com/SlabyLol/OpenComb/actions/workflows/ci.yml)
@@ -14,23 +14,87 @@
 pip install opencomb
 ```
 
-## Highlights (v0.16.0)
+## Highlights (v0.17.0)
 
-| Area | Commands |
-|------|----------|
-| **Templates** | `templates` · `new` – **56 full scaffolds** (FastAPI, CLI, ML, Discord, PyRunner, …) |
-| **Wizard / Stacks** | `wizard` · `stacks` · `stack` · `add` · `components` |
-| **PyRunner** | `new pyrunner` – Python in the browser (Pyodide), packages via `packages.json` only |
-| **PRT** | `prt` – own lightweight language + REPL |
-| **Build / Drill** | `build` (animated) · `drill` |
-| **SSH Connect** | `occ` – interactive `user@host` connector with profiles |
-| **Clone / Site** | `clone` · `site` |
-| **DevOps** | `search` · `todos` · `stats` · `diff` · `hash` · `outdated` · `serve` · `watch` |
-| **Packages** | `pak add` · `remove` · `list` · `show` · `info` · `freeze` |
-| **Code / Config** | `combine` · `merge` · `env` · `generate` · `recipe` · `format` |
-| **Project** | `init` · `tree` · `bump` · `check` · `syscheck` · `structure` · `ignore` |
+| Area | CLI | Python API |
+|------|-----|------------|
+| **Templates** | `templates` · `new` | `list_templates()` · `apply_template()` · `new_project()` |
+| **Wizard / Stacks** | `wizard` · `stacks` · `stack` · `add` | `run_wizard()` · `apply_stack()` · `add_component()` |
+| **Code / Config** | `combine` · `merge` · `env` | `combine()` · `merge_configs()` · `merge_env()` |
+| **Combos / Prompts** | `generate` · `prompt` · `template` | `generate_combos()` · `build_prompt()` · `render_template()` |
+| **Project** | `init` · `tree` · `bump` · `syscheck` | `ProjectHelper` · `doctor()` |
+| **Packages** | `pak add` … | `PackageManager` |
+| **Search / Stats** | `search` · `todos` · `stats` | `search()` · `todos()` · `stats()` |
+| **SSH** | `occ` | `SSHTarget` · `occ_connect()` |
+| **Build / Drill** | `build` · `drill` | `interactive_build()` · `start_drill()` |
 
-## Quick start
+Full API docs: **[docs/API.md](docs/API.md)**
+
+---
+
+## Python API – quick start
+
+```python
+import opencomb
+
+# Version
+print(opencomb.__version__)
+
+# Combine Python sources
+code = opencomb.combine(["a.py", "b.py"])
+code = opencomb.combine(snippets=["x = 1", "print(x)"])
+
+# Merge configs / env
+cfg = opencomb.merge_configs(["base.yaml", "local.yaml"])
+env = opencomb.merge_env([".env", ".env.local"])
+
+# Combinatorial parameter sets
+rows = opencomb.generate_combos(
+    {"lr": [0.001, 0.01], "batch": [16, 32]},
+    method="pairwise",
+)
+
+# Jinja2 + prompts
+html = opencomb.render_template("Hi {{ name }}!", data={"name": "Ada"})
+prompt = opencomb.build_prompt(
+    system="You are a code reviewer.",
+    user="Review this PR.",
+)
+
+# Scaffold a project
+path = opencomb.new_project("my-api", template="fastapi")
+
+# Search / TODOs / stats / doctor
+hits = opencomb.search("TODO", ".", regex=False)
+items = opencomb.todos(".")
+st = opencomb.stats(".")
+report = opencomb.doctor(".")
+print(report["score"], report["grade"])
+```
+
+### Main classes
+
+```python
+from opencomb import (
+    CodeCombiner, ConfigMerger, EnvMerger,
+    CombinatorialGenerator, PromptCombiner, TemplateRenderer,
+    RecipeRunner, PackageManager, ProjectHelper, Checker,
+    Searcher, TodoExtractor, ProjectStats,
+    list_templates, apply_template, apply_stack, add_component,
+)
+
+# Example: class usage
+text = CodeCombiner().combine_files(["src/a.py", "src/b.py"])
+data = ConfigMerger().merge_files(["cfg/base.yaml", "cfg/prod.yaml"])
+PackageManager().add(["requests"])
+ProjectHelper().init("demo", description="Demo package")
+```
+
+See **[docs/API.md](docs/API.md)** for every function, method, and return type.
+
+---
+
+## CLI quick start
 
 ```bash
 # List all 56 templates
@@ -46,7 +110,7 @@ opencomb wizard
 # Apply a full stack
 opencomb stack api-full ./my-full-api
 
-# Add a component to existing project
+# Add a component
 opencomb add dockerfile .
 opencomb add makefile .
 
@@ -55,22 +119,18 @@ opencomb syscheck
 
 # SSH connector
 opencomb occ user@example.com
-# or profile
-opencomb occ --profile prod
 ```
 
-## PyRunner
+### PyRunner
 
-Run Python **online in the browser** (Pyodide). Package list is **only** `packages.json` – **no GUI**.
+Run Python **in the browser** (Pyodide). Packages only via `packages.json` (no GUI).
 
 ```bash
 opencomb new pyrunner my-runner
-cd my-runner
-python -m http.server 8080
-# edit packages.json, reload page
+cd my-runner && python -m http.server 8080
 ```
 
-## Stacks
+### Stacks
 
 | Stack | Description |
 |-------|-------------|
@@ -85,16 +145,18 @@ python -m http.server 8080
 | `minimal` | Bare package |
 | `pyrunner` | Browser Python runner |
 
-## Components
+### Components
 
 `dockerfile` · `makefile` · `precommit` · `devcontainer` · `gitignore` · `compose` · `pytest` · `github-ci` · `readme`
 
-## PRT language
+### PRT language
 
 ```bash
 opencomb prt                  # REPL
 opencomb prt examples/prt/hello.prt
 ```
+
+---
 
 ## Development
 
