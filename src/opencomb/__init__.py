@@ -43,6 +43,7 @@ from opencomb.occ import (
     load_profile as occ_load_profile,
     save_profile as occ_save_profile,
 )
+from opencomb.codec import encode, decode, encode_file, decode_file, encode_chunks, decode_chunks
 from opencomb.api import (
     combine, merge_configs, merge_env, generate_combos,
     render_template, build_prompt, run_recipe, new_project,
@@ -73,4 +74,5 @@ __all__ = [
     "combine", "merge_configs", "merge_env", "generate_combos",
     "render_template", "build_prompt", "run_recipe", "new_project",
     "search", "todos", "stats", "doctor",
+    "encode", "decode", "encode_file", "decode_file", "encode_chunks", "decode_chunks",
 ]
