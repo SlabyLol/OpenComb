@@ -28,6 +28,7 @@ pip install opencomb
 | **Packages** | `pak add` … | `PackageManager` |
 | **SSH** | `occ` | `SSHTarget` · `occ_connect()` |
 | **Build / Drill** | `build` · `drill` | `interactive_build()` · `start_drill()` |
+| **Codec** | `codec encode` · `decode` | `encode()` · `decode()` · `encode_file()` |
 
 Full API docs: **[docs/API.md](docs/API.md)**
 
@@ -70,6 +71,33 @@ opencomb zombie help-all             # list all 62 commands
 ### Problem Scanner checks (19)
 
 System load · Memory · Swap · Disk / inodes · Temp & cache · Large logs · Top processes · **Zombie processes** · Duplicate processes · Developer clutter · Network / DNS · Listening ports · Failed services · Security · Python env · Docker · Broken symlinks · Uptime · OOM hints
+
+---
+
+## Codec (custom encoder / decoder)
+
+OpenComb ships its own payload codec (magic `OC01` + zlib + base64):
+
+```bash
+# Encode any file
+opencomb codec encode mycode.py          # → mycode.py.oc
+opencomb codec encode mycode.py -o out.oc
+
+# Decode
+opencomb codec decode mycode.py.oc       # → mycode.py
+opencomb codec decode out.oc -o restored.py
+```
+
+```python
+from opencomb import encode, decode, encode_file, decode_file
+
+payload = encode("print('hi')")
+original = decode(payload).decode()
+encode_file("script.py")
+decode_file("script.py.oc")
+```
+
+Used internally by the Zombie & Problem Scanner loaders for compact, verifiable payloads.
 
 ---
 
@@ -131,6 +159,10 @@ opencomb add dockerfile .
 opencomb zombie run-check --once
 opencomb zombie shoot ./tmp-build --dry-run
 opencomb problemscanner --cli
+
+# Codec
+opencomb codec encode file.py
+opencomb codec decode file.py.oc
 
 # SSH
 opencomb occ user@example.com
