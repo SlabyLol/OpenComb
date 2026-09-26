@@ -1,4 +1,141 @@
-"""templates_b2.py (compressed, verified)."""
-import zlib, base64
-_CODE = zlib.decompress(base64.b64decode("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")).decode("utf-8")
-exec(compile(_CODE, __file__, "exec"), globals())
+"""Template builders — plain Python source (no encoding)."""
+from __future__ import annotations
+
+from opencomb.templates_base import FileSpec, _pkg, _pyproject, _gitignore
+
+
+def _readme(name: str, body: str) -> FileSpec:
+    return FileSpec("README.md", f"# {name}\n\n{body.strip()}\n")
+
+
+def _init() -> str:
+    return '__version__ = "0.1.0"\n'
+
+
+def _tests_smoke(pkg: str) -> list[FileSpec]:
+    return [
+        FileSpec("tests/conftest.py", "import pytest\n\n@pytest.fixture\ndef any_data():\n    return {\"ok\": True}\n"),
+        FileSpec("tests/test_smoke.py", f"def test_version():\n    import {pkg}\n    assert getattr({pkg}, \"__version__\", \"0.1.0\")\n"),
+        FileSpec("pytest.ini", "[pytest]\ntestpaths = tests\npythonpath = src\n"),
+    ]
+
+
+def tpl_openai_cli(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'OpenAI CLI', ['openai>=1.0', 'typer>=0.12'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/cli.py", "import os, typer\napp = typer.Typer()\n@app.command()\ndef ask(prompt: str):\n    print('Set OPENAI_API_KEY; prompt:', prompt)\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_game_pygame(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Pygame', ['pygame>=2.5'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/game.py", "import pygame\npygame.init()\nscreen = pygame.display.set_mode((640, 480))\nprint('pygame starter')\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_aiohttp(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'aiohttp server', ['aiohttp>=3.9'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/server.py", "from aiohttp import web\nasync def hello(request):\n    return web.json_response({'ok': True})\napp = web.Application()\napp.router.add_get('/', hello)\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_starlette(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Starlette', ['starlette>=0.37', 'uvicorn[standard]>=0.27'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/app.py", "from starlette.applications import Starlette\nfrom starlette.responses import JSONResponse\nfrom starlette.routing import Route\nasync def homepage(request):\n    return JSONResponse({'ok': True})\napp = Starlette(routes=[Route('/', homepage)])\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_textual(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Textual TUI', ['textual>=0.50'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/app.py", "from textual.app import App, ComposeResult\nfrom textual.widgets import Label\nclass MyApp(App):\n    def compose(self) -> ComposeResult:\n        yield Label('OpenComb Textual')\n\nif __name__ == '__main__':\n    MyApp().run()\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_nicegui(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'NiceGUI', ['nicegui>=1.4'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/app.py", "from nicegui import ui\nui.label('OpenComb NiceGUI')\nui.run()\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_polars(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Polars data', ['polars>=0.20'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/data.py", "import polars as pl\ndef load(path: str) -> pl.DataFrame:\n    return pl.read_csv(path)\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_typer_async(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Async Typer', ['typer>=0.12', 'anyio>=4.0'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/cli.py", "import typer, anyio\napp = typer.Typer()\n@app.command()\ndef run():\n    async def _():\n        print('async ok')\n    anyio.run(_)\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_fastapi_sqlmodel(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'FastAPI + SQLModel', ['fastapi>=0.110', 'sqlmodel>=0.0.16', 'uvicorn[standard]>=0.27'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/main.py", "from fastapi import FastAPI\nfrom sqlmodel import SQLModel, Field\nclass Item(SQLModel, table=True):\n    id: int | None = Field(default=None, primary_key=True)\n    name: str\napp = FastAPI()\n@app.get('/health')\ndef health():\n    return {'ok': True}\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_pytest_asyncio(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Pytest asyncio', ['pytest>=8.0', 'pytest-asyncio>=0.23'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec("tests/test_async.py", "import pytest\n@pytest.mark.asyncio\nasync def test_ok():\n    assert True\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
