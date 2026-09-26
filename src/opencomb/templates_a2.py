@@ -1,4 +1,142 @@
-"""templates_a2.py (compressed, verified)."""
-import zlib, base64
-_CODE = zlib.decompress(base64.b64decode("eNrtW+ty20aW/u+n6CDrKTAhQUm2MxlaVMWRlYk3zmUkpaamRBYMAk0SEthAugFJjFZV+xD7hPsk+53uBgmCIHWxtLU/Vk5IoC/nfk6f0910HOeUz7IkyDkbFXEScamYm9sm5Qd7XjZvsf/+z/9i4yJJGJpjwVRayJC3mUjZn0k88hzHeTGW6Yz5/rjIC8l9n8WzLJU5C4RI8yCPU6FemDFpxkWYzkbeEssoULyc8EOc8JOMh23mZxcT+pxnMj3nYY7nSZzHE5FK/uJFxMcszxJqmhYjPwg1DlcEM95jKpct1jlgSazysxLisPeC4W8+S1ifufqZ/hwz5fDDQDjLxlT0BoKxrFBT/cDYSAYinHLVY2czCGFoupPEl/yPgqu8tzL/PB0pPTE3XdQoC6E6AMyKUSHyoqOZz1em0QeIR8dkbmcxNgtyGV8vXoF2nk9T0bmEsmKCdzZwXnm7OwOnzfTT7uJpb+AMGxDwTPXWmhnrsEIRg1aYXbAbXqRF/t3l63uMVjwvso6h7bvLNw0zGLuCtiqMrLPybzc3ll9vtYvd3jbSAKH2WBZnLBYqD2Cind/161/+strKmVdvA4Im+S+h6n7W+aMc0tKfEnxKwc4Ws0oDcx3PWGP3KpUX4yS9gghjDwYHdeCz1W6Ycnz07v3PR94swhjnS/ZSDcRAHH5gJQhQGyZFxCMPVLCXjKy1EZC3cA6n6iluy44evlg6jSKXDH0V5/weHjPN6y6z/0WUhvk847rvYCD29ZgkEJP+wOFi4Og2HkQHNfHuz3gesHAaSJgLxhb5uPPtwOkekFGYTiIIPZcxv6KIMHBYmIqcCxp+FUf5tB/xyzjkHf3ShoDAa5B0VBgkvL9rgK0izeM84Qcv1X7XPGlkSSwuoMwEYFU+T7iack7YppKPF21eqJSBuN+1/OyP0mi+zhdiwoGx7P3prsaFL9uQHZxoiTOSONNh8FeEwUMKg/vd7GDNBvdHRZ7D6OMIlIxyEuhhEocXbMb3u6ZvAdsMgptikAGG1q6lZ5VIFco4y5mSIWYEWeadKz3JtGsmLXOg3mjWWj4sT1tK2xigboRoVs2iJ9M0ZzdsDH11xsEsTuawrDnizaxTxG2mAgRAxWU8fgudJqnssS/5t/TvLRsF4cVEpoWI0Li7R//eslWXJ5YYhYdro/oee70j+ewtWuQkhsO+whsLijx9y7IgimIx6bEdtqvHrIKy4r2pjPPe0GwzOCykIuqyNIblycpsw/l5jXEYKAIF9IRmeEYxg7V6E54fJZwev59/iFyrx9bbFULMTChv60yt3NrMhOeM8O2sNgOJB56OLjH7I5yZCy4BISTroWXBbbH+AbupWYZgX/fZ7ttaK9Bilb7OD43/AdnA0WbIIzyxr2kaPeTxjLuqNXBWAdwuKb4zcsYi4tce2RxopK/GGLf0SYzCZ+MgY9cYcK7uH3E/ffqELGQ6EGbVYZ0ZqMgzD9aKBUj3r8XfakTNZO4bL7pHQM0gScpu3KUvbRHNS+UBOuHOQHAmYZIQ+o88SVITSsCBMxBkD9cAvAud7IEPPe76jkVjuyzKVI0BPzNkVCRh40HWtMCEMhU+cqDHCQMTV/1LsxkhKyJLKzPF8r2t7e/PVHAivmJ/RAwWclej/gX96zmPlpI7HjhnNyU4T6RXbgnRK/Kw5cUqHacSaYnbuh1CEJrAX3+CSzZgpCi1DaWmqDYvHiN1Jv6ROPfJy3yfwPj+wFkHYBBUIzPNvMuKFmm0l6fayZaJtVWkcwilEWvoPBu22Y3RHdkfGnuEVhvhbetR+Qf9IVcOohmvIuyxT19137Cv7L+X6tMdJovFq/tSdX2f1n3fR5poXUM3uK1tk8DHcjxeKmO/8inZU76apRfczRpsehZmvgkHj7NqvXytm/U4QDaWxYv6B6/vfkMxojuzeRQIShxs7/eolH5OI57UDAgxD6DtXFcnOf2Xsm5mYRJgyT5FRP8g3AWo1rqJUdDX/NUAfEexFasTFpRunqaJ0i5QcwDd4TZAtdZ5M3DsXF258HCamnqlyDIuQ5BlXpEBRyESAix9w9smQrJULSnpGjjN5PjU6VJq07PsbyVPclUkOdFHU/QSeA8CKuRvoEKP+CwyPAOidQ9yKuLbQM5VeH9aCJrWWMKFuyRHZYnxOehLJ/VrQ1q3azkkFijHWInTeoKwdUqQGOye4pZj3emgv4M6eIeWtQLFQirFGdpFFMhoSH17f3WGTxbHFgumRUVrJXl7j9yy00GNkQaRXjl16HnysEa4lhPo7UGBDX7Ogxkp8lFxzcSeSlizsSojcSuG/zIwbxsXuKidiu8Vm1OwKJ77WTDhPjLjcTxx9XMZ0NooMefISk0luOZomK5Hujr0rXZcSSp2B87JggDYg0RyXyvH6jApZBNZCfBRIn2Mqp7i05s2293ZabO9nZp3jTEhi7z3QR78ICEkF95zTW4hUR3DZLSvzHXwi7HgxaiWJD6xNpQDhrdr1KNWhUTgYLkbjbWMdMLsatCtteHIZYKxRh6NW1truM9zvaUwYQTa/Rb6Pejveq/2yP+MHRz097yd5/C5pUUhs2LWI3Q4nD+jyxkEdjxeHuRwExlEcfq03mZgkldNZENWOpGc1/0b3xtD/thWGDYNvP0CZR6yVB2+eaJ4WYF8QaXHhhx4HfhEeh+ooB4HIXfHoq+poh2crMgVnJoWDHIuuHitZZHSeElQiHD6fzSF/rvVgvUGo5SD/msy/ZWMGiOeI6NeeAVVctb4nyWT/iz715sR9Pk4F8DERhcwexy1xEg3erSzlLmtpi67v+ynGW1jY70JL2jJ0buQ9XWEGCCyG0wbfoB/qA1RMM8Q8ZRnWhro8eyQZnosHQOn0yEaTC7cEfQN9AEywr5Ox5KoKbGbklNWxLpOqMGiE+IGJ289mN5ATvSuFSgOtKfOM94fI+PJ7xo+2jacmAmiyA16TPe22cg+becpQHY5+qzgoBX8jIum2cg9/GjyVU36Qf9bb7cWIdDRw//PFyCMrbCOYO+i4HmjBRnRYjxeHhQtrvhIpeEFz/8Xyu42+ycfnWhslcf3sUI2KqDDR5Xd1aq5yWdp13x7vXyl6ypMp4fG2m8pJDtqFU2g5iKk+MGulCmGFxN6Sz4baAiuAmRWi8FeEIY8y2uRQG8ZyHmv+chvChWxU1nw5n76o3wVgqwjkzzk8SXSfyQBDSjLv/o0xUVk5ozN9kKP0e5ecFuXCn3wa2KoSdfN5BqlPEPqsKDgEaUsuhbsI9Pe3fv/4raMHiLN+ShNLx4XPERtI7p2bjJwQsRQu5O1ai03ps+n9c047yyQF1F6JcyKTkedZJTUd3NLLeZWhd0V+5L9YgkfwN2d4W37TvhhGvFNsG1CrYEPqYFf87CgRMO3e0Q9JookqWOpk2WjpShm2ZxqDZENFqX9Sr1vDyBckXm+X6ZYfpsq48p7yzK3inXYrkt5haGBc8GlQBECzdmGKFZZEsx9kzCRMH4zxzivjEDoYLpAVmf6zBGP6VnOMK2YcHu7hl+MzP4/jXzdrjT4sxj+Q82r9x1u733wRbdHYqkP+5SXX+fky+cFXT2QVELvQJDL+nkgtOSpY+8boHi0jy9Hl/5hHS3O5oIOAMToMWdn1QsXktVZGwjLGCuRsibszYdtjwoo1UBgo6l/fvXYfa4inzbWHamyu/XbT6ginuRB9bDKqaUk5+nyGtS///P0SMpUthnoLQ8DAqXoupW+DnGdl0MP5TwzR7TX9fzk5Ojw+OjU/+noXyA8VR4Xl7FMhU1Glr3GFyJ+2VE8hLF2wintRXVma1ts7z7+/dfjD6c//qwPg3882XvzDdU4lRHZVeSXFPZXiHNVOIU1qD4CySikjgHlvBHPsNBDVHSNgU7v6zh/Pzk6PgEscnQ+S8nbKki8KWzPLbvWdsZJ/Zd05WDuk/xoH9vVt9i0/tuMZvNoaQywxmRjKlZFa4AaWCWYpvNAMhtOZzjg0C0UQldpfG1WUnQXegMdItCi0OorIbU20UqQXDsREWRdCPZhQXsT8TAGkO3nWF2Fq4rRHZtH/Jr8ZvNJKmqzhSe4CJ0FVu/+NzsbeYDte3QEHeldVOAn3ePLrGAZveELK9zSlNssSCapjPPprL8w1ibWIk5wLWv6c1PFvDG1zYI5JT9gmQg1AA2oDRTB9Bc0DZsTWnBHG8gGsnVUzXhrSzpKhJN6WrRHRxD0Ft0v9ShTyXfL+LItyV0B8JBi6j3PkIKr9rKq+vH09LcjjRnr/nrks/ORuYcFBDUvAdG0d/AfSO9PfYn0UMJ4BF33Ugbo9zyQdD+jDnHLwWl9KO3GUWgvb6xW/LW94gDtFZu5bylY3Zkv2etXaHcp5PmclNH/AXzx5lPbj+kkFncc265El/W7DtVgs+38MCFUTYWq7rBnhpaeBipomzhdlaM5DizJa5vzzJKe1gYbDGLY8IrhuHRvsVA+KaH/emeXFJIHMd3g+yAugySOSF+lgTS5zLKkpkJWKatKxJGVSLdCrj6w0e2VZHtk7M5pWm6gZAkafALgEkGqt9WS2X9oT4NVWMdxS0NpbQ61VsoG/BMI8JeayqIm8RFHFOCroVNT4FXk3tpEK81+Sl1b3W3UMuHbshUzazyon5lFWjtJRSNVnba27tWUZkN2Qs+r59/Z0+0j2lhDofzh2wX2cjWlnGc6FUsnMsimcwx55b0yx3Y62zwzmdqQao7POjOvjEYa6vHrYJYlNL6Sh/aXeedKcVPbkniPVM9YE6Osj3X116Z66LOOOeARlXMOvD3jVkV0DuZTP7nfreyHXSJsKjMNvoP+GyosnafaL/pIV5zfa9CM7nCrbiER41QYjMdpoq+xP7maNJ7lDHtfUNPg0TXORVWlUnHMVZYKpS8L6hOTFLTb33C0yl9qGEFWh1MCiuBBXk33EOh+OMUnsxqkF1gJWverWUkaG0jVglrspuRTW/chQdEMll1E8UBgMMagmhZ0GfmMxrt04NTW/e3yGr0e7LSGhriHndOpP5IgoZpt/jh7jJqucS6Blvyc5DIWk0WuxQUyCzCgeKJ33J2NALxUzpY5J/IkiaX1klOK1GY/Q1sc1c0JlnmsJ+SP1IAFJSlmojHHooluDVBDrKfI2Dj/Q85n7oZJvp8Ho4SXh1AwGvjJTNWKZ71aIkMzxJ/FIh9i7ArlbibjWSDn/gWf92lbfX39M8qyMKCzdRhG5O7u3k7rMXdYjYoAdUVlVKn8QdGr1+12PX1EHOkzPtqD30AqScsrt/c8Cy5IEteAXJ9AvyAqdVoO0neJTFNzfmE76WK8q5VknWMcS5WvXaCpz6Ljz3jTAQTd3pH6ZzqL8fRDlEBSFkcGrBG2Wh4x1dp8BGK2SwHJi2G09G2r+ye75fAU933+8fGd9V08QtPmzs/CIZ/tks/yVj6CYTR6xuOGqHJDOHrYBeEQ+paPDJV5oC7U9t1FA36x66ffauYxkqBNNu31HR59PDr+l//98a8/HR37vx9/NFt+yNpjBXdNUtjsFPVf75tXf/1bd2ft/FBXtwanS+ufwdQ3X2396x3kyfa98QCUOGw84b/uwXnyNpvrby00fG9Msa/Z12x+bwQZhbk7bzsNHKzxk2UsplQ9e4qjfqMy+i0fl+a4X7ecabkPKfV69Tw59Zq++xtVvS3TXjigNb7OO3JAY6yGK9ZJoK5x+owuqdEtZ+jXezjm/wAPpN5W")).decode("utf-8")
-exec(compile(_CODE, __file__, "exec"), globals())
+"""Template builders — plain Python source (no encoding)."""
+from __future__ import annotations
+
+from opencomb.templates_base import FileSpec, _pkg, _pyproject, _gitignore
+
+
+def _readme(name: str, body: str) -> FileSpec:
+    return FileSpec("README.md", f"# {name}\n\n{body.strip()}\n")
+
+
+def _init() -> str:
+    return '__version__ = "0.1.0"\n'
+
+
+def _tests_smoke(pkg: str) -> list[FileSpec]:
+    return [
+        FileSpec("tests/conftest.py", "import pytest\n\n@pytest.fixture\ndef any_data():\n    return {\"ok\": True}\n"),
+        FileSpec("tests/test_smoke.py", f"def test_version():\n    import {pkg}\n    assert getattr({pkg}, \"__version__\", \"0.1.0\")\n"),
+        FileSpec("pytest.ini", "[pytest]\ntestpaths = tests\npythonpath = src\n"),
+    ]
+
+
+def tpl_library(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Python library', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/mathops.py", "def add(a, b):\n    return a + b\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_monorepo(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Monorepo', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec("packages/core/src/core/__init__.py", "__version__ = '0.1.0'\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_docker_api(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Dockerized API', ['fastapi>=0.110', 'uvicorn[standard]>=0.27'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/main.py", "from fastapi import FastAPI\napp = FastAPI()\n@app.get('/health')\ndef health():\n    return {'ok': True}\n"),
+        FileSpec("Dockerfile", "FROM python:3.12-slim\nWORKDIR /app\nCOPY . .\nRUN pip install .\nCMD [\"uvicorn\", \"%s.main:app\", \"--host\", \"0.0.0.0\"]\n" % p),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_pytest_only(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Pytest project', ['pytest>=8.0'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/calc.py", "def answer():\n    return 42\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_github_actions(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'GitHub Actions CI', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(".github/workflows/ci.yml", "name: CI\non: [push]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with: {python-version: '3.12'}\n      - run: pip install -e .[dev]\n      - run: pytest -q\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_static_site(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Static site', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec("index.html", "<!doctype html><title>%s</title><h1>%s</h1>\n" % (name, name)),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_prt_script(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'OpenComb PRT script', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"{name}.prt", "# PRT starter\nprint \"hello from PRT\"\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_cron_job(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Cron job', [])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/job.py", "def main():\n    print('cron job ran')\n\nif __name__ == '__main__':\n    main()\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_mcp_server(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Tools API', ['fastapi>=0.110', 'uvicorn[standard]>=0.27'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/main.py", "from fastapi import FastAPI\napp = FastAPI()\n@app.get('/tools')\ndef tools():\n    return {'tools': ['echo']}\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
+
+def tpl_streamlit(name: str) -> list[FileSpec]:
+    p = _pkg(name)
+    files = [
+        FileSpec("pyproject.toml", _pyproject(name, 'Streamlit app', ['streamlit>=1.32'])),
+        FileSpec(".gitignore", _gitignore()),
+        _readme(name, f"```bash\npip install -e .\n```"),
+        FileSpec(f"src/{p}/__init__.py", _init()),
+        FileSpec(f"src/{p}/app.py", "import streamlit as st\nst.title('App')\nst.write('OpenComb streamlit starter')\n"),
+    ]
+    files.extend(_tests_smoke(p))
+    return files
