@@ -3,7 +3,7 @@ OpenComb – Everything developers need.
 
 >>> import opencomb
 >>> opencomb.__version__
-'0.19.3'
+'0.19.4'
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ from opencomb.api import (
     search, todos, stats, doctor,
 )
 
-__version__ = "0.19.3"
+__version__ = "0.19.4"
 
 __all__ = [
     "__version__",
