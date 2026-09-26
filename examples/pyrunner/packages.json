@@ -1,5 +1,5 @@
 {
-  "packages": ["numpy", "micropip"],
+  "packages": ["numpy", "micropip", "opencomb"],
   "entry": "main.py",
   "python": "3.12"
 }
