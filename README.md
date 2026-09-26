@@ -21,7 +21,7 @@ pip install opencomb
 Every module under `src/opencomb/` is normal, readable Python.  
 There are **no** compressed payload files, **no** `exec(compile(...))` loaders, **no** base64 blobs in the package.
 
-## Highlights (v0.19.0)
+## Highlights (v0.19.1)
 
 | Area | CLI | Python API |
 |------|-----|------------|
