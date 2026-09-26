@@ -47,6 +47,13 @@ try:
 except Exception:
     pass
 
+# Sandbox builder
+try:
+    from opencomb.sandbox import sandbox_app
+    app.add_typer(sandbox_app, name="sandbox")
+except Exception:
+    pass
+
 # Codec
 try:
     from opencomb.codec import encode, decode, encode_file, decode_file
@@ -355,11 +362,11 @@ def new_cmd(
 def problemscanner_cmd(
     cli_mode: bool = typer.Option(False, "--cli", help="Text-only scan (no GUI)"),
     json_out: bool = typer.Option(False, "--json", help="Write JSON when using --output"),
-    output: Optional[Path] = typer.Option(None, "--output", "-o", help="Save report to file"),
-    watch: bool = typer.Option(False, "--watch", "-w", help="Watch mode (zombie run-check)"),
-    zombies_only: bool = typer.Option(False, "--zombies", "-z", help="One-shot zombie check"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+    watch: bool = typer.Option(False, "--watch", "-w"),
+    zombies_only: bool = typer.Option(False, "--zombies", "-z"),
 ) -> None:
-    """Scan this computer for problems; zombie run-check with --watch / --zombies."""
+    """Scan this computer for problems."""
     from opencomb.problem_scanner import launch_gui, main_cli
 
     if watch or zombies_only or cli_mode:
@@ -367,10 +374,7 @@ def problemscanner_cmd(
             from opencomb.problem_scanner import run_check_loop
             raise typer.Exit(
                 run_check_loop(
-                    watch=watch,
-                    zombies_only=zombies_only,
-                    json_out=json_out,
-                    output=output,
+                    watch=watch, zombies_only=zombies_only, json_out=json_out, output=output
                 )
             )
         except ImportError:
@@ -379,19 +383,7 @@ def problemscanner_cmd(
         launch_gui()
     except RuntimeError as e:
         console.print(f"[yellow]{e}[/]")
-        console.print("[dim]Falling back to CLI mode…[/]")
         raise typer.Exit(main_cli(json_out=json_out, output=output))
-
-
-@app.command("shoot", hidden=True)
-def shoot_alias(
-    folder: Path = typer.Argument(..., help="Folder to clear"),
-    yes: bool = typer.Option(False, "--yes", "-y"),
-    dry_run: bool = typer.Option(False, "--dry-run"),
-) -> None:
-    """Alias → opencomb zombie shoot."""
-    from opencomb.zombie import shoot_cmd
-    shoot_cmd(folder=folder, yes=yes, dry_run=dry_run)
 
 
 @app.command("doctor")
@@ -402,21 +394,6 @@ def doctor_cmd() -> None:
     table.add_column("Component")
     table.add_column("Status")
     table.add_row("Core", "[green]OK[/]")
-    import subprocess
-    import sys
-
-    for mod, label in [("ruff", "ruff"), ("black", "black"), ("jinja2", "Jinja2")]:
-        try:
-            if mod in ("ruff", "black"):
-                subprocess.run(
-                    [sys.executable, "-m", mod, "--version"], capture_output=True, check=True
-                )
-                table.add_row(label, "[green]ok[/]")
-            else:
-                m = __import__(mod)
-                table.add_row(label, f"[green]{getattr(m, '__version__', 'ok')}[/]")
-        except Exception:
-            table.add_row(label, "[yellow]missing[/]")
     console.print(table)
 
 
@@ -427,7 +404,6 @@ def pak_add(
     user: bool = typer.Option(False, "--user"),
 ) -> None:
     """Install packages from PyPI."""
-    console.print(f"[cyan]Installing:[/] {', '.join(packages)}")
     r = PackageManager().add(packages, upgrade=upgrade, user=user)
     if r.returncode == 0:
         console.print("[green]✓ installed[/]")
@@ -445,12 +421,8 @@ def pak_list() -> None:
     for p in sorted(pkgs, key=lambda x: x.get("name", "").lower()):
         table.add_row(p.get("name", ""), p.get("version", ""))
     console.print(table)
-    console.print(f"Total: {len(pkgs)}")
 
 
-# ---------------------------------------------------------------------------
-# User-defined custom commands
-# ---------------------------------------------------------------------------
 from opencomb.user_cmds import (
     add_command as _uc_add,
     delete_command as _uc_del,
@@ -462,121 +434,66 @@ from opencomb.user_cmds import (
 
 @app.command("add")
 def add_cmd(
-    name: Optional[str] = typer.Argument(None, help="Command name (e.g. mycommand)"),
-    runner: Optional[str] = typer.Argument(None, help="Runner, e.g. python / bash / node"),
-    script: Optional[Path] = typer.Argument(None, help="Path to the script to run"),
-    delete: bool = typer.Option(False, "--del", "--delete", help="Delete a user command"),
-    list_cmds: bool = typer.Option(False, "--list", "-l", help="List all user commands"),
-    extra: Optional[list[str]] = typer.Argument(None, help="Extra fixed args for the script"),
+    name: Optional[str] = typer.Argument(None),
+    runner: Optional[str] = typer.Argument(None),
+    script: Optional[Path] = typer.Argument(None),
+    delete: bool = typer.Option(False, "--del", "--delete"),
+    list_cmds: bool = typer.Option(False, "--list", "-l"),
+    extra: Optional[list[str]] = typer.Argument(None),
 ) -> None:
-    """Add / list / delete your own OpenComb commands.
-
-    Examples:\n      opencomb add mycommand python hello.py\n      opencomb add --list\n      opencomb add --del mycommand
-    """
+    """Add / list / delete your own OpenComb commands."""
     if list_cmds or (name is None and not delete):
         cmds = _uc_list()
         if not cmds:
-            console.print("[dim]No user commands yet. Add one with:[/]")
-            console.print("  opencomb add mycommand python hello.py")
+            console.print("[dim]No user commands yet.[/]")
             return
-        table = Table(title="User commands", show_header=True)
+        table = Table(title="User commands")
         table.add_column("Name", style="cyan")
         table.add_column("Runner")
         table.add_column("Script")
-        table.add_column("Extra args")
         for n, e in sorted(cmds.items()):
-            table.add_row(
-                n,
-                e.get("original_runner") or e.get("runner", ""),
-                e.get("script", ""),
-                " ".join(e.get("extra_args") or []) or "—",
-            )
+            table.add_row(n, e.get("original_runner") or e.get("runner", ""), e.get("script", ""))
         console.print(table)
         return
-
     if delete:
         if not name:
-            console.print("[red]Need a name: opencomb add --del mycommand[/]")
-            raise typer.Exit(1)
-        if name in _UC_RESERVED:
-            console.print(f"[red]'{name}' is built-in – cannot delete[/]")
             raise typer.Exit(1)
         if _uc_del(name):
-            console.print(f"[green]✓ removed user command[/] [cyan]{name}[/]")
+            console.print(f"[green]✓ removed[/] {name}")
         else:
-            console.print(f"[yellow]No user command named[/] {name}")
             raise typer.Exit(1)
         return
-
     if not name or not runner or not script:
-        console.print("[red]Usage:[/] opencomb add <name> <runner> <script.py>")
-        console.print("       opencomb add --list")
-        console.print("       opencomb add --del <name>")
+        console.print("[red]Usage:[/] opencomb add <name> <runner> <script>")
         raise typer.Exit(1)
-
-    try:
-        entry = _uc_add(name, runner, script, extra_args=extra or [])
-    except (ValueError, FileNotFoundError) as e:
-        console.print(f"[red]✗[/] {e}")
-        raise typer.Exit(1)
-
-    console.print(
-        f"[green]✓ added[/] [cyan]opencomb {name}[/] → "
-        f"{entry.get('original_runner', runner)} {entry['script']}"
-    )
-    console.print("[dim]Next invocation will pick it up.[/]")
+    entry = _uc_add(name, runner, script, extra_args=extra or [])
+    console.print(f"[green]✓ added[/] opencomb {name}")
 
 
 def _register_user_commands() -> None:
-    """Dynamically register user commands as top-level CLI commands."""
     cmds = _uc_list()
     existing = {getattr(c, "name", None) for c in (app.registered_commands or [])}
     for name, entry in cmds.items():
         if name in _UC_RESERVED or name in existing:
             continue
 
-        def _make(n: str, script: str):
+        def _make(n: str):
             def _runner(
-                args: Optional[list[str]] = typer.Argument(
-                    None, help="Arguments passed through to the script"
-                ),
+                args: Optional[list[str]] = typer.Argument(None),
             ) -> None:
-                try:
-                    code = _uc_run(n, passthrough=args or [])
-                except (KeyError, RuntimeError) as e:
-                    console.print(f"[red]✗[/] {e}")
-                    raise typer.Exit(1)
+                code = _uc_run(n, passthrough=args or [])
                 if code:
                     raise typer.Exit(code)
 
-            _runner.__doc__ = f"[user] {script}"
             return _runner
 
         try:
-            app.command(name=name, help=f"[user] {entry.get('script', '')}")(
-                _make(name, entry.get("script", ""))
-            )
+            app.command(name=name, help=f"[user] {entry.get('script', '')}")(_make(name))
         except Exception:
             pass
 
 
 _register_user_commands()
-
-
-@app.command("info")
-def info_cmd() -> None:
-    """Show OpenComb info."""
-    console.print(
-        Panel.fit(
-            f"""[bold cyan]OpenComb[/] v{__version__}
-
-[bold]Zombie:[/] zombie run-check · shoot · scan · list · help-all\n[bold]Scanner:[/] problemscanner\n[bold]Codec:[/] codec encode · decode\n[bold]Custom:[/] add · add --list · add --del\n[bold]Main:[/] combine · merge · env · generate · templates · new\n[bold]Packages:[/] pak add · list\n[bold]Connect:[/] occ  (SSH user@host)\n
-Repo: https://github.com/SlabyLol/OpenComb""",
-            title="OpenComb",
-            border_style="cyan",
-        )
-    )
-
 
 if __name__ == "__main__":
     app()
